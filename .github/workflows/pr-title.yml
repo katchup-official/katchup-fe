@@ -19,16 +19,16 @@ jobs:
             const pr = context.payload.pull_request;
             const branchName = pr.head.ref;
 
-            const match = branchName.match(/(KW-\d+)/);
+            const match = branchName.match(/(KU-\d+)/);
             if (!match) {
-              console.log("No KW-XX issue key found in branch name.");
+              console.log("No KU-XX issue key found in branch name.");
               return;
             }
 
             const issueKey = match[1];
 
             const cleanTitle = pr.title
-              .replace(/^\[KW-\d+\]\s*/, '') 
+              .replace(/^\[KU-\d+\]\s*/, '') 
               .replace(new RegExp(`^${issueKey}/`), '')
 
             const newTitle = `[${issueKey}] ${cleanTitle}`;

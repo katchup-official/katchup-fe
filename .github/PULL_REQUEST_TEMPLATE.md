@@ -1,6 +1,6 @@
-## 🌱 관련 이슈
+## 🔷 관련 Jira Ticket ID
 
-- close #Issue_number
+[KU-]
 
 ---
 ## 📌 작업 내용 및 특이사항
