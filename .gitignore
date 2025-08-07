@@ -1,0 +1,40 @@
+# macOS 관련
+.DS_Store
+
+# Node.js 관련
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Expo
+.expo/
+.expo-shared/
+
+# Build output
+dist/
+build/
+android/app/build/
+ios/build/
+ios/Pods/
+
+# Metro cache
+.expo/
+.expo-shared/
+metro-cache/
+.cache/
+babel-loader/
+
+# 환경 변수 파일
+.env
+.env.local
+.env.*.local
+
+# VSCode 설정 
+.vscode/
+
+# TypeScript
+*.tsbuildinfo
+
+# 기타
+*.log
