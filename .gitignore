@@ -36,5 +36,9 @@ babel-loader/
 # TypeScript
 *.tsbuildinfo
 
+# JetBrains IDEs (IntelliJ, WebStorm, Android Studio)
+.idea/
+*.iml
+
 # 기타
 *.log
