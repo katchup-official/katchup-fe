@@ -23,7 +23,17 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    // Paperlogy 폰트 등록(키 이름 = 사용할 fontFamily)
+    'Paperlogy-Thin': require('../assets/fonts/Paperlogy-1Thin.ttf'),
+    'Paperlogy-ExtraLight': require('../assets/fonts/Paperlogy-2ExtraLight.ttf'),
+    'Paperlogy-Light': require('../assets/fonts/Paperlogy-3Light.ttf'),
+    'Paperlogy-Regular': require('../assets/fonts/Paperlogy-4Regular.ttf'),
+    'Paperlogy-Medium': require('../assets/fonts/Paperlogy-5Medium.ttf'),
+    'Paperlogy-SemiBold': require('../assets/fonts/Paperlogy-6SemiBold.ttf'),
+    'Paperlogy-Bold': require('../assets/fonts/Paperlogy-7Bold.ttf'),
+    'Paperlogy-ExtraBold': require('../assets/fonts/Paperlogy-8ExtraBold.ttf'),
+    'Paperlogy-Black': require('../assets/fonts/Paperlogy-9Black.ttf'),
+    //SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
