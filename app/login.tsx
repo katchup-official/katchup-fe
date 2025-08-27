@@ -2,6 +2,7 @@ import { View, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 
 import LoginTitle from "../components/titles/LoginTitle";
+import { colors } from "../constants/colors";
 
 const BG_IMG = require("../assets/images/login-background.png");
 const LOGO_IMG = require("../assets/images/katchup-logo3.png"); 
@@ -18,7 +19,8 @@ export default function Login() {
       <ImageBackground
         source={BG_IMG}
         resizeMode="cover"
-        className="flex-1 justify-center bg-white"
+        className="flex-1 justify-center"
+        style={{ backgroundColor: colors.white }} 
         imageClassName="opacity-30 mt-24"        
       >
         <View className="flex-1 items-start px-8 justify-center mb-80 ml-5">
