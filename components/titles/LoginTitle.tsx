@@ -11,7 +11,7 @@ export default function LoginTitle({ children }: TitleTextProps) {
   return (
     <Text
       style={[fonts.largeTitle, { color: colors.black }]}
-      className="mb-2 text-left w-full"
+      className="text-left w-full mb-2"
     >
       {children}
     </Text>
