@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 
 import SignupTitle from "@/components/titles/SignupTitle";
 import SignupBar from "@/components/bars/SignupBar";
-import StyleQuestionList from "@/components/list/StyleQuestionList";
+import StyleQuestionList from "@/components/lists/StyleQuestionList";
 import SignupButton from "@/components/buttons/SignupButton";
 
 const BUTTON_HEIGHT = 88;
