@@ -1,6 +1,6 @@
 export const colors = {
 
-  orange: "#D84925", // 주요 서비스 컬러(주황색)
+  orange: "#D84925", // 주요 서비스 컬러
   lightOrange: "#FFD2C7",
   gray: "#B7B7B7",
   lightGray: "#F6F6F6",
