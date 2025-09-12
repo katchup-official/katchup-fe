@@ -50,7 +50,7 @@ export default function StyleTest() {
 
     async function onSubmit() {
         if (!canSubmit) return;
-        router.push("/event"); 
+        router.push("/signup/greeting"); 
     }
 
     const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
