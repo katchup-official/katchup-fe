@@ -5,7 +5,7 @@ import LoginTitle from "../components/titles/LoginTitle";
 import { colors } from "../constants/colors";
 
 const BG_IMG = require("../assets/images/login-background.png");
-const LOGO_IMG = require("../assets/images/katchup-logo3.png"); 
+const LOGO3 = require("../assets/images/katchup-logo3.png"); 
 const KAKAO_BTN = require("../assets/images/kakao-login-btn.png");
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
           <LoginTitle>취향을</LoginTitle>
           <LoginTitle>함께 하는 동행</LoginTitle>
           <Image
-            source={LOGO_IMG}
+            source={LOGO3}
             className="w-56 h-24 ml-1" 
             resizeMode="contain"
           />

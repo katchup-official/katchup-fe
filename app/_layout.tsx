@@ -15,7 +15,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'login', //첫 화면
+  initialRouteName: 'splash', //첫 화면
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -60,6 +60,12 @@ function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen
+            name="splash"
+            options={{
+              animation: "none",
+            }}
+          />
         </Stack>
     </QueryClientProvider>
   );
