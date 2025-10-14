@@ -20,7 +20,7 @@ export default function StyleQuestionList({
   onSelect,
 }: StyleQuestionListProps) {
   return (
-    <View className="px-6">
+    <View className="px-6 ml-5 mr-5">
       {questions.map((q) => (
         <View key={q.id} className="mb-8">
           <Text style={[fonts.mediumText, { marginBottom: 12 }]}>
@@ -34,8 +34,8 @@ export default function StyleQuestionList({
                 key={idx}
                 className="w-full rounded-md py-4 px-4 mb-3"
                 style={{
-                  backgroundColor: selected ? colors.orange : colors.white,
-                  borderColor: selected ? colors.orange : colors.gray,
+                  backgroundColor: selected ? colors.lightOrange : colors.white,
+                  borderColor: selected ? colors.lightOrange : colors.gray,
                   borderWidth: 1,
                 }}
                 onPress={() => onSelect(q.id, idx)}
