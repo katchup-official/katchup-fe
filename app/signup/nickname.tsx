@@ -9,7 +9,7 @@ import SignupBar from "@/components/bars/SignupBar";
 import SignupInput from "@/components/inputs/SignupInput";
 import SignupButton from "@/components/buttons/SignupButton";
 
-export default function Nickname() {
+export default function NicknameScreen() {
     const router = useRouter();
 
     const [nickname,setNickname] = useState("");

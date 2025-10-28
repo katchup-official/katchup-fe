@@ -23,7 +23,7 @@ const MASK_HEIGHT = 110;
 const MASK_SHOW_MS = 1000;
 const MASK_FADE_MS = 220;
 
-export default function Greeting() {
+export default function GreetingScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -73,7 +73,7 @@ export default function Greeting() {
 
         <SignupButton
         label="시작하기"
-        onPress={() => router.push("/event")}
+        onPress={() => router.push("/main-s")}
         containerStyle={{ paddingBottom: Math.max(insets.bottom, 24) }}
       />
 

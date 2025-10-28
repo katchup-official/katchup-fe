@@ -7,7 +7,7 @@ import { colors } from "../constants/colors";
 const LOGO2 = require("../assets/images/katchup-logo2.png");
 const LOGO3 = require("../assets/images/katchup-logo3.png");
 
-export default function Splash() {
+export default function SplashScreen() {
   const router = useRouter();
 
   useEffect(() => {
