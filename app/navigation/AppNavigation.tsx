@@ -13,7 +13,10 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigation() {
     return (
         <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator 
+                screenOptions={{ headerShown: false }}
+                initialRouteName="MainScreen"
+            >
                 <Stack.Screen name="CreatePartyScreen" component={CreatePartyScreen} />
                 <Stack.Screen name="PartyListScreen" component={PartyListScreen} />
                 <Stack.Screen name="MainScreen" component={MainScreen} />
