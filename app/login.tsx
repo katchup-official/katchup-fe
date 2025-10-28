@@ -8,7 +8,7 @@ const BG_IMG = require("../assets/images/login-background.png");
 const LOGO3 = require("../assets/images/katchup-logo3.png"); 
 const KAKAO_BTN = require("../assets/images/kakao-login-btn.png");
 
-export default function Login() {
+export default function LoginScreen() {
   const router = useRouter();
 
   const moveToSignUp = () => {

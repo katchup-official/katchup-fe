@@ -34,7 +34,7 @@ const questions = [
         },
     ];
 
-export default function StyleTest() {
+export default function StyleTestScreen() {
     const router = useRouter();
 
     const [answers, setAnswers] = useState<{ [key: number]: number | null }>({});
