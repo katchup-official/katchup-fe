@@ -8,6 +8,8 @@ import 'react-native-reanimated';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 
+import AppNavigator from "@/app/navigation/AppNavigator";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -60,12 +62,9 @@ function RootLayoutNav() {
   return (
     <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="splash"
-            options={{
-              animation: "none",
-            }}
-          />
+          <Stack.Screen name="splash" options={{ animation: "fade" }}/>
+          <Stack.Screen name="login" options={{ animation: "fade" }}/>
+          <Stack.Screen name="mainTabs" options={{ animation: "fade" }} />
         </Stack>
     </QueryClientProvider>
   );

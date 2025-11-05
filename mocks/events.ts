@@ -1,0 +1,123 @@
+export interface EventItem {
+  id: number;
+  eventId: string;
+  eventName: string;
+  startDate: string;
+  endDate: string;
+  facilityName: string;
+  posterUrl: string;
+  genreName: string;
+  eventStatus: string;
+  isOpenRun: boolean;
+}
+
+export const events: EventItem[] = [
+  {
+    id: 3306,
+    eventId: "PF123456",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-08-01",
+    endDate: "2025-09-07",
+    facilityName: "예술의전당 오페라극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: false,
+  },
+  {
+    id: 3307,
+    eventId: "PF987654",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-09-15",
+    endDate: "2025-10-30",
+    facilityName: "블루스퀘어 신한카드홀",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연예정",
+    isOpenRun: false,
+  },
+  {
+    id: 3308,
+    eventId: "PF654321",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-11-01",
+    endDate: "2025-12-15",
+    facilityName: "세종문화회관 대극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: true,
+  },
+  {
+    id: 3309,
+    eventId: "PF123406",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-08-01",
+    endDate: "2025-09-07",
+    facilityName: "예술의전당 오페라극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: false,
+  },
+  {
+    id: 3310,
+    eventId: "PF980654",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-09-15",
+    endDate: "2025-10-30",
+    facilityName: "블루스퀘어 신한카드홀",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연예정",
+    isOpenRun: false,
+  },
+  {
+    id: 3311,
+    eventId: "PF650321",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-11-01",
+    endDate: "2025-12-15",
+    facilityName: "세종문화회관 대극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: true,
+  },
+  {
+    id: 3312,
+    eventId: "PF193456",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-08-01",
+    endDate: "2025-09-07",
+    facilityName: "예술의전당 오페라극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: false,
+  },
+  {
+    id: 3313,
+    eventId: "PF987694",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-09-15",
+    endDate: "2025-10-30",
+    facilityName: "블루스퀘어 신한카드홀",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연예정",
+    isOpenRun: false,
+  },
+  {
+    id: 3314,
+    eventId: "PF654921",
+    eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
+    startDate: "2025-11-01",
+    endDate: "2025-12-15",
+    facilityName: "세종문화회관 대극장",
+    posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
+    genreName: "뮤지컬",
+    eventStatus: "공연중",
+    isOpenRun: true,
+  },
+];
