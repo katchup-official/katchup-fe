@@ -6,7 +6,6 @@ export default function MainScreen(){
     return (
         <View className="flex-1 bg-white">
             <AppHeader />
-            <AppNavigator />
         </View>
     );
 }
