@@ -68,17 +68,18 @@ export default function GreetingScreen() {
           className="w-60 h-60 mt-10"
           resizeMode="contain"
         />
-       <GreetingTitle />
+      <GreetingTitle />
       </View>
 
         <SignupButton
         label="시작하기"
-        onPress={() => router.push("/main-s")}
+        onPress={() => router.push("/mainTabs")} 
         containerStyle={{ paddingBottom: Math.max(insets.bottom, 24) }}
       />
 
       <View
         pointerEvents="none"
+        className="rounded-3xl overflow-hidden z-10"
         style={[
           StyleSheet.absoluteFillObject,
           {
@@ -88,7 +89,6 @@ export default function GreetingScreen() {
             bottom: CLIP_BOTTOM,
           },
         ]}
-        className="rounded-3xl overflow-hidden z-10"
         onLayout={(e) =>
           setClipSize({
             width: e.nativeEvent.layout.width,

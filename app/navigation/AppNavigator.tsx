@@ -1,55 +1,57 @@
-import React, { useState, useEffect, use } from "react";
-import { SafeAreaView, View, TouchableOpacity } from "react-native";
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
-import { navigate } from "./NavigationRef";
-import { RootStackParamList } from "./types";
+import type { RootTabParamList } from "./types";
+
+import CreatePartyScreen from "../create-party";
+import PartyListScreen from "../party-list";
+import MainScreen from "../main-s";
+import EventListScreen from "../event-list";
+import MyScreen from "../my-s";
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function AppNavigator() {
-    const [activeTab, setActiveTab] = useState<keyof RootStackParamList>("MainScreen");
-
-    const handlePress = (tabName: keyof RootStackParamList) => {
-        if (activeTab === tabName) return; // 이미 현재 탭이면 무시
-        setActiveTab(tabName);
-        navigate(tabName);
-    };
-
-    const getIconColor = (tabName: keyof RootStackParamList) => {
-        return activeTab === tabName ? colors.orange : colors.gray;
-    };
-
-    return (
-        <SafeAreaView
-            className="absolute bottom-0 left-0 right-0 border-t"
-            style={{
-                backgroundColor: colors.white,
-                borderColor: colors.gray,
-            }}
-        >
-            <View
-                className="flex-row justify-around items-center py-3"
-            >
-                <TouchableOpacity onPress={() => handlePress("CreatePartyScreen")}>
-                    <Feather name="edit" size={30} color={getIconColor("CreatePartyScreen")} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handlePress("PartyListScreen")}>
-                    <Ionicons name="list-outline" size={30} color={getIconColor("PartyListScreen")} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handlePress("MainScreen")}>
-                    <Ionicons name="home" size={30} color={getIconColor("MainScreen")} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handlePress("EventListScreen")}>
-                    <Ionicons name="location-outline" size={30} color={getIconColor("EventListScreen")} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handlePress("MyScreen")}>
-                    <Ionicons name="person-outline" size={30} color={getIconColor("MyScreen")} />
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
-    );
-
+  return (
+    <Tab.Navigator
+      initialRouteName="MainScreen"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: colors.orange,
+        tabBarInactiveTintColor: colors.gray,
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          borderTopColor: colors.gray,
+          height: 80,
+          paddingVertical: 0,
+        },
+        tabBarItemStyle: {
+          paddingTop: 6,
+        },  
+        tabBarIcon: ({ color }) => {
+          const size = 29;
+          switch (route.name) {
+            case "CreatePartyScreen":
+              return <Feather name="edit" size={size} color={color} />;
+            case "PartyListScreen":
+              return <Ionicons name="list-outline" size={size} color={color} />;
+            case "MainScreen":
+              return <Ionicons name="home" size={size} color={color} />;
+            case "EventListScreen":
+              return <Ionicons name="location-outline" size={size} color={color} />;
+            case "MyScreen":
+              return <Ionicons name="person-outline" size={size} color={color} />;
+          }
+        },
+      })}
+    >
+      <Tab.Screen name="CreatePartyScreen" component={CreatePartyScreen} />
+      <Tab.Screen name="PartyListScreen" component={PartyListScreen} />
+      <Tab.Screen name="MainScreen" component={MainScreen} />
+      <Tab.Screen name="EventListScreen" component={EventListScreen} />
+      <Tab.Screen name="MyScreen" component={MyScreen} />
+    </Tab.Navigator>
+  );
 }
