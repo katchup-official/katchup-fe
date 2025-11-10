@@ -2,18 +2,25 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { events } from "@/mocks/events";
 import { colors } from "@/constants/colors";
-import { fonts } from "@/constants/fonts";
+import EventListTitle from "../titles/EventListTitle";
 
-export default function EventList() {
+interface EventListProps {
+  searchEvent?: string;
+  countEventNum?: number | null;
+  isSearched?: boolean;
+}
+
+export default function EventList({ 
+  searchEvent="", countEventNum, isSearched = false, 
+}: EventListProps) {
+
+  const title = isSearched
+    ? `검색 결과 (${countEventNum ?? 10})`
+    : "실시간 인기 있는 행사";
+
   return (
-    <View className="mx-5 mt-10 mb-20">
-      <Text 
-        className="mb-8"
-        style={[fonts.mediumText, { color: colors.black }]}
-      >
-        실시간 인기 있는 행사
-      </Text>
-
+    <View className="mx-5 my-10">
+      <EventListTitle title={title}/>
       {events.map((item) => (
         <TouchableOpacity
           key={item.eventId}
