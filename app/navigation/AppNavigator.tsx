@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
-import type { RootTabParamList } from "./types";
+import type { RootTabParamList } from "./_types";
 
 import CreatePartyScreen from "../create-party";
 import PartyListScreen from "../party-list";
