@@ -6,7 +6,7 @@ import type { RootTabParamList } from "./_types";
 
 import CreatePartyScreen from "../create-party";
 import PartyListScreen from "../party-list";
-import MainScreen from "../main-s";
+import MainStack from "./MainStack";
 import EventListScreen from "../event-list";
 import MyScreen from "../my";
 import AppHeader from "@/components/bars/AppHeader";
@@ -18,7 +18,7 @@ export default function AppNavigator() {
     <>
     <AppHeader />
     <Tab.Navigator
-      initialRouteName="MainScreen"
+      initialRouteName="MainStack"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarShowLabel: false,
@@ -40,7 +40,7 @@ export default function AppNavigator() {
               return <Feather name="edit" size={size} color={color} />;
             case "PartyListScreen":
               return <Ionicons name="list-outline" size={size} color={color} />;
-            case "MainScreen":
+            case "MainStack":
               return <Ionicons name="home" size={size} color={color} />;
             case "EventListScreen":
               return <Ionicons name="location-outline" size={size} color={color} />;
@@ -52,7 +52,7 @@ export default function AppNavigator() {
     >
       <Tab.Screen name="CreatePartyScreen" component={CreatePartyScreen} />
       <Tab.Screen name="PartyListScreen" component={PartyListScreen} />
-      <Tab.Screen name="MainScreen" component={MainScreen} />
+      <Tab.Screen name="MainStack" component={MainStack} />
       <Tab.Screen name="EventListScreen" component={EventListScreen} />
       <Tab.Screen name="MyScreen" component={MyScreen} />
     </Tab.Navigator>

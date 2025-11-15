@@ -2,6 +2,7 @@ export const colors = {
 
   orange: "#D84925", // 주요 서비스 컬러
   lightOrange: "#FF7756",
+  bgOrange: "#FFF6F4",
   darkGray: "#6B7280",
   gray: "#B7B7B7",
   lightGray: "#F6F6F6",
