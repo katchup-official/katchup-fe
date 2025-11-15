@@ -8,12 +8,15 @@ import CreatePartyScreen from "../create-party";
 import PartyListScreen from "../party-list";
 import MainScreen from "../main-s";
 import EventListScreen from "../event-list";
-import MyScreen from "../my-s";
+import MyScreen from "../my";
+import AppHeader from "@/components/bars/AppHeader";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function AppNavigator() {
   return (
+    <>
+    <AppHeader />
     <Tab.Navigator
       initialRouteName="MainScreen"
       screenOptions={({ route }) => ({
@@ -53,5 +56,6 @@ export default function AppNavigator() {
       <Tab.Screen name="EventListScreen" component={EventListScreen} />
       <Tab.Screen name="MyScreen" component={MyScreen} />
     </Tab.Navigator>
+    </>
   );
 }
