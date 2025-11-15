@@ -1,4 +1,8 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import type { NavigationProp } from "@react-navigation/native";
+import type { RootTabParamList } from "@/app/navigation/_types";
+import type { MainStackParamList } from "@/app/navigation/MainStack";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { events } from "@/mocks/events";
 import { colors } from "@/constants/colors";
@@ -14,6 +18,8 @@ export default function EventList({
   searchEvent="", countEventNum, isSearched = false, 
 }: EventListProps) {
 
+  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
+  
   const title = isSearched
     ? `검색 결과 (${countEventNum ?? 10})`
     : "실시간 인기 있는 행사";
@@ -26,6 +32,17 @@ export default function EventList({
           key={item.eventId}
           activeOpacity={0.8}
           className="flex-row items-center mb-5"
+          onPress={() =>
+            navigation.navigate("MainStack", {
+              screen: "MainPartyScreen",
+              params: {
+                eventName: item.eventName,
+                facilityName: item.facilityName,
+                startDate: item.startDate,
+                endDate: item.endDate,
+              },
+            })
+          }
         >
           <Image
             source={{ uri: item.posterUrl }}
