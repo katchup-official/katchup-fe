@@ -10,10 +10,10 @@ interface PartyHeaderProps {
     facilityName: string;
     startDate: string;
     endDate: string;
-    count?: number;
+    countPartyNum?: number;
 }
 
-export default function PartyHeader({ eventName, facilityName, startDate, endDate, count = 0 }: PartyHeaderProps) {
+export default function PartyHeader({ eventName, facilityName, startDate, endDate, countPartyNum = 8 }: PartyHeaderProps) {
     const navigation = useNavigation();
     return (
         <View className="mt-6">
@@ -27,7 +27,7 @@ export default function PartyHeader({ eventName, facilityName, startDate, endDat
                     style={{ color: colors.black }}
                     numberOfLines={1}
                 >
-                    파티 목록 ({count})
+                    파티 목록 ({countPartyNum})
                 </Text>
             </View>
             <View
