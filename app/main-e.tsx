@@ -16,15 +16,15 @@ export default function MainEventScreen(){
 
     return (
         <View className="flex-1 bg-white">
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ flexGrow: 1, paddingBottom: 0 }}>
-            <EventSearchBar onSearch={handleSearchConfirm}/>
-            <EventList 
-                searchEvent={searchEvent}
-                countEventNum={countEventNum}
-                isSearched={isSearched}
-            />
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: 0 }}>
+                <EventSearchBar onSearch={handleSearchConfirm}/>
+                <EventList 
+                    searchEvent={searchEvent}
+                    countEventNum={countEventNum}
+                    isSearched={isSearched}
+                />
         </ScrollView>
         </View>
     );
