@@ -3,10 +3,12 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
+import EmptyBox from "./EmptyBox";
 import type { PartyStatus, PartyType, RouteType, GenderType, PartyItem, } from "@/mocks/parties";
 
 type PartyListProps = {
   partyData: PartyItem[];
+  countPartyNum?: number | null;
   onToggle: (id: number) => void;
 };
 
@@ -96,11 +98,15 @@ const Tag = ({ label }: TagProps) => (
   </View>
 );
 
-export default function PartyList({ partyData, onToggle }: PartyListProps) {
+export default function PartyList({ partyData, onToggle, countPartyNum, }: PartyListProps) {
+  const shouldShowEmpty = countPartyNum === 0;
 
   return (
-    <View className="px-4 py-2">
-      {partyData.map((item) => {
+    <View className="px-4 py-2 mt-5">
+      {shouldShowEmpty ? (
+        <EmptyBox />
+      ) : (
+      partyData.map((item) => {
         const { label, color } = formatPartyStatus(item.status);
         const { label: routeLabel, arrow } = formatRoute(item.routeType);
 
@@ -170,7 +176,8 @@ export default function PartyList({ partyData, onToggle }: PartyListProps) {
           </TouchableOpacity>
         </View>
         );
-      })}
+      })
+    )}
     </View>
   );
 }

@@ -28,7 +28,11 @@ export default function MainPartyScreen() {
         startDate={startDate}
         endDate={endDate}
       />
-      <PartyList partyData={partyData} onToggle={toggleLike} />
+      <PartyList 
+        partyData={partyData} 
+        countPartyNum={10}
+        onToggle={toggleLike}
+    />
     </ScrollView>
   );
 }
