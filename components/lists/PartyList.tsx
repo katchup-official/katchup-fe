@@ -20,7 +20,7 @@ const profileImages: Record<number, any> = {
 };
 
 const truncateText = (text: string, length = 6) => {
-  return text.length > length ? text.slice(0, length) + ".." : text;
+  return text.length > length ? text.slice(0, length) + "···" : text;
 };
 
 const formatDate = (dateString: string) => {
