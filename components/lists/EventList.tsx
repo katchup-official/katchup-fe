@@ -31,7 +31,7 @@ export default function EventList({
     <View className="mx-5 my-10">
       <EventListTitle title={title}/>
       {shouldShowEmpty ? (
-        <EmptyBox />
+        <EmptyBox message="검색 결과가 존재하지 않습니다"/>
       ) : (
         events.map((item) => (
           <TouchableOpacity

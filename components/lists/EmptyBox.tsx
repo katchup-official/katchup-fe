@@ -3,7 +3,11 @@ import { View, Text, Image } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 
-export default function SearchEmptyState() {
+type EmptyBoxProps = {
+  message?: string;
+};
+
+export default function EmptyBox({message}: EmptyBoxProps) {
   return (
     <View
       className="items-center justify-center rounded-2xl py-8"
@@ -16,7 +20,7 @@ export default function SearchEmptyState() {
       />
 
       <Text style={[fonts.mediumText, { color: colors.black }]}>
-        검색 결과가 존재하지 않습니다
+        {message}
       </Text>
     </View>
   );
