@@ -7,12 +7,12 @@ import { fonts } from "@/constants/fonts";
 
 const SORT_OPTIONS = {
   LATEST: "최신순",
-  OLDEST: "생성순",
+  OLDEST: "오래된순",
   NEAREST: "가까운순",
 } as const;
 
 const FILTER_OPTIONS = {
-  RECRUITING: "진행중",
+  RECRUITING: "모집중",
   JOINABLE: "참여가능",
 } as const;
 

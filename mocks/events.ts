@@ -1,15 +1,4 @@
-export interface EventItem {
-  id: number;
-  eventId: string;
-  eventName: string;
-  startDate: string;
-  endDate: string;
-  facilityName: string;
-  posterUrl: string;
-  genreName: string;
-  eventStatus: string;
-  isOpenRun: boolean;
-}
+import type { EventItem } from "@/types/event";
 
 export const events: EventItem[] = [
   {
