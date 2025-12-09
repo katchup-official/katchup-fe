@@ -13,7 +13,7 @@ interface PartyHeaderProps {
     countPartyNum?: number;
 }
 
-export default function PartyHeader({ eventName, facilityName, startDate, endDate, countPartyNum = 8 }: PartyHeaderProps) {
+export default function PartyHeader({ eventName, facilityName, startDate, endDate, countPartyNum }: PartyHeaderProps) {
     const navigation = useNavigation();
     return (
         <View className="mt-6">

@@ -1,4 +1,4 @@
-export type PartyStatus = 'RECRUITING' | 'FULL' | 'CLOSED';
+export type PartyStatus = 'RECRUITING' | 'RECRUIT_COMPLETED' | 'COMPLETED';
 export type PartyType = 'SCHEDULE_AND_TRANSPORT' | 'SCHEDULE_ONLY' | 'TRANSPORT_ONLY';
 export type GenderType = 'MALE' | 'FEMALE' | 'ALL';
 export type RouteType = 'ONE_WAY' | 'ROUND_TRIP';

@@ -5,10 +5,10 @@ export const formatPartyStatus = (status: PartyStatus) => {
   switch (status) {
     case "RECRUITING":
       return { label: "진행중", color: colors.orange };
-    case "FULL":
+    case "RECRUIT_COMPLETED":
       return { label: "모집마감", color: colors.black };
-    case "CLOSED":
-      return { label: "파티완료", color: colors.darkGray };
+    case "COMPLETED":
+      return { label: "파티종료", color: colors.darkGray };
     default:
       return { label: "", color: colors.orange };
   }
