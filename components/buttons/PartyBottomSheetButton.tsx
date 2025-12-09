@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
+import PartyChatLinkModal from "../modals/PartyChatLinkModal";
 import type { PartyItem } from "@/types/party";
 
 type PartyBottomSheetButtonProps = {
@@ -23,6 +24,9 @@ export default function PartyBottomSheetButton({
   );
   const [isPartyJoined, setIsPartyJoined] = useState(false);
 
+  const [isChatModalVisible, setIsChatModalVisible] = useState(false);
+  const [chatUrl, setChatUrl] = useState(party.chatUrl ?? "");
+
   useEffect(() => {
     setPartyStatus(party.status);
     setIsPartyJoined(false);
@@ -41,7 +45,13 @@ export default function PartyBottomSheetButton({
 
   const handlePartyConfirm = () => {
     if (!isRecruiting || !isHost || isButtonDisabled) return;
+    setIsChatModalVisible(true);
+  };
+
+  // 오카방 링크 입력 후 파티 status 변경
+  const handleChatConfirm = () => {
     setPartyStatus("RECRUIT_COMPLETED");
+    setIsChatModalVisible(false);
   };
 
   const getButtonBackgroundColor = () => {
@@ -135,6 +145,13 @@ const buttonLabel = getButtonLabel();
           신고하기
         </Text>
       </TouchableOpacity>
+      <PartyChatLinkModal
+        visible={isChatModalVisible}
+        chatUrl={chatUrl}
+        onChangeChatUrl={setChatUrl}
+        onCancel={() => setIsChatModalVisible(false)}
+        onConfirm={handleChatConfirm}
+      />
     </>
   );
 }
