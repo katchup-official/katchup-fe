@@ -7,6 +7,7 @@ import { formatPartyStatus, formatPartyType, formatRoute, formatGender } from "@
 import { formatDate, formatTime } from "@/utils/dateTime";
 import { profileImages } from "@/utils/profileImgMapper";
 import PartyBottomSheetButton from "@/components/buttons/PartyBottomSheetButton";
+import PartyChatLinkButton from "@/components/buttons/PartyChatLinkButton";
 
 import { member } from "@/mocks/member";
 
@@ -18,7 +19,7 @@ type PartyBottomSheetProps = {
 };
 
 const { height } = Dimensions.get("window");
-const SHEET_HEIGHT = height * 0.67;
+const SHEET_HEIGHT = height * 0.72;
 const CLOSE_THRESHOLD = 70;
 
 export default function PartyBottomSheet({
@@ -79,6 +80,14 @@ export default function PartyBottomSheet({
     routeLabel,
     formatGender(party.gender),
   ];
+
+  const isHost = party.host.memberId === member.memberId;
+  const isParticipant = party.isParticipant;
+
+  const canViewChatLink =
+    party.status === "RECRUIT_COMPLETED" &&
+    (isHost || isParticipant) &&
+    !!party.chatUrl;
 
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
@@ -170,6 +179,12 @@ export default function PartyBottomSheet({
                 </Text>
               </View>
             </View>
+
+            {canViewChatLink && (
+              <PartyChatLinkButton
+                chatUrl={party.chatUrl!}
+              />
+            )}
             
             <PartyBottomSheetButton
               party={party}

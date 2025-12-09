@@ -32,4 +32,5 @@ export interface PartyItem {
     startLocation: string;
   };
   isLiked: boolean;
+  isParticipant: boolean;
 }

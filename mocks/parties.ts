@@ -29,7 +29,8 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척스카이돔"
         },
-        "isLiked": true
+        "isLiked": true,
+        "isParticipant": false
       },
       {
         "partyId": 2,
@@ -59,7 +60,8 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": false
       },
       {
         "partyId": 3,
@@ -71,12 +73,12 @@ export const parties: PartyItem[] = [
         "minBirthYear": "00",
         "startAt": "2025-11-05T03:00:00.000",
         "endAt": "",
-        "description": "콘서트 전 팝업 방문할 사람!!",
-        "chatUrl": null,
+        "description": "콘서트 시작 전에 함께 팝업스토어를 방문할 사람을 찾고 있어요! 공연 분위기를 미리 느낄 수 있는 굿즈나 포토존도 함께 둘러보고, 가벼운 디저트나 음료도 마시면서 공연 전 설렘을 같이 나누면 좋겠습니다. 혼자 가기엔 아쉬워서 편하게 대화하면서 즐길 수 있는 분이면 누구든 환영이에요. 시간 맞춰 이동해서 공연장 앞에서도 여유 있게 준비해요!",
+        "chatUrl": "https://open.kakao.com/o/123",
         "capacity": 4,
         "currentParticipants": 1,
         "host": {
-          "memberId": 2,
+          "memberId": 1,
           "nickname": "채민주채민주채민",
           "profileImageUrl": 4,
           "role": "HOST"
@@ -89,7 +91,8 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔돔돔돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": true
       },
       {
         "partyId": 4,
@@ -119,20 +122,21 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": false
       },
       {
         "partyId": 5,
         "type": "TRANSPORT_ONLY",
         "routeType": "ROUND_TRIP",
-        "status": "RECRUITING",
+        "status": "RECRUIT_COMPLETED",
         "gender": "FEMALE",
         "maxBirthYear": "95",
         "minBirthYear": "00",
         "startAt": "2025-11-05T05:26:32.286",
         "endAt": "2025-11-05T05:26:32.286",
         "description": "콘서트 전 팝업 방문할 사람!!",
-        "chatUrl": null,
+        "chatUrl": "https://open.kakao.com/o/123",
         "capacity": 4,
         "currentParticipants": 1,
         "host": {
@@ -149,7 +153,8 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": false
       },
       {
         "partyId": 6,
@@ -179,7 +184,8 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": false
       },
       {
         "partyId": 7,
@@ -209,6 +215,7 @@ export const parties: PartyItem[] = [
           "longitude": 127.05902969025047,
           "startLocation": "고척 스카이돔"
         },
-        "isLiked": false
+        "isLiked": false,
+        "isParticipant": false
       }
     ];
