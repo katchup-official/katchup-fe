@@ -24,6 +24,7 @@ export default function MainEventScreen(){
                     searchEvent={searchEvent}
                     countEventNum={countEventNum}
                     isSearched={isSearched}
+                    isAllEventMode={false}
                 />
         </ScrollView>
         </View>
