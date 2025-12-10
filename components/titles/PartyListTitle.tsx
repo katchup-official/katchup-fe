@@ -9,7 +9,7 @@ export default function PartyListTitle() {
       <Text
         style={[
           fonts.mediumText,
-          { fontSize: 26, color: colors.black }
+          { fontSize: 21, color: colors.black }
         ]}
       >
         파티 목록
