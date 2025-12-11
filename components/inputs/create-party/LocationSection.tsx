@@ -6,16 +6,16 @@ import { inputBoxStyle } from "@/styles/inputBox";
 
 type LocationSectionProps = {
   departure: string;
-  arrival: string;
+  arrivalLabel: string;
   onChangeDeparture: (value: string) => void;
-  onPressSearch: () => void;
+  onPressSearchDeparture: () => void;
 };
 
 export default function LocationSection({
   departure,
-  arrival,
+  arrivalLabel,
   onChangeDeparture,
-  onPressSearch,
+  onPressSearchDeparture,
 }: LocationSectionProps) {
 
   return (
@@ -33,7 +33,7 @@ export default function LocationSection({
           <TextInput
             value={departure}
             onChangeText={onChangeDeparture}
-            placeholder="출발지 주소를 입력하거나 검색하세요"
+            placeholder="출발지 주소를 입력하세요"
             placeholderTextColor={colors.gray}
             style={[fonts.mediumText, { color: colors.black }]}
           />
@@ -48,10 +48,10 @@ export default function LocationSection({
             justifyContent: "center",
             alignItems: "center",
           }}
-          onPress={onPressSearch}
+          onPress={onPressSearchDeparture}
         >
           <Text style={[fonts.smallText, { color: colors.black }]}>
-            주소찾기
+            주소 검색
           </Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +66,7 @@ export default function LocationSection({
       </Text>
       <View style={[inputBoxStyle, { flex: 1 }]}>
         <TextInput
-          value={arrival}
+          value={arrivalLabel}
           editable={false}
           selectTextOnFocus={false}
           placeholderTextColor={colors.gray}

@@ -1,7 +1,9 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { View, TextInput } from "react-native";
 import { getDateRange, toKSTIsoString } from "@/utils/dateTime";
 import { PartyType, RouteType, GenderType } from "@/types/party";
+import type { KakaoPlace } from "@/types/kakao-place";
+import { searchKakaoPlaces } from "@/apis/kakaoApi";
 
 import Label from "./create-party/InputLabel";
 import SegmentGroup from "./create-party/SegmentGroup";
@@ -13,6 +15,7 @@ import AgeLimitSection from "./create-party/AgeLimitSection";
 import EtcSection from "./create-party/EtcSection";
 
 import CreatePartyButton from "../buttons/CreatePartyButton";
+import KakaoPlaceSearchModal from "../modals/KakaoPlaceSearchModal";
 
 interface CreatePartyProps {
   eventId: string;
@@ -53,13 +56,53 @@ export default function CreateParty({
   ];
 
   const [departure, setDeparture] = useState("");
-  const arrival = facilityName;
+  const [departurePlace, setDeparturePlace] = useState<KakaoPlace | null>(null);
+
+  const [isDepartureSearchOpen, setIsDepartureSearchOpen] = useState(false);
+
+  const handleSelectDeparturePlace = (place: KakaoPlace) => {
+    setDeparture(place.roadAddressName || place.addressName || place.placeName);
+    setDeparturePlace(place);
+  };
+
+  const arrivalLabel = facilityName; 
+  const [arrivalPlace, setArrivalPlace] = useState<KakaoPlace | null>(null);
+
+  // facilityName 기반으로 도착지 위치 검색
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchArrivalPlace = async () => {
+      if (!facilityName) return;
+
+      try {
+        const results = await searchKakaoPlaces(facilityName);
+
+        if (!isMounted) return;
+
+        if (results.length > 0) {
+          setArrivalPlace(results[0]);
+        } else {
+          setArrivalPlace(null);
+        }
+      } catch (e) {
+        console.warn("arrival 검색 실패:", e);
+        if (isMounted) setArrivalPlace(null);
+      }
+    };
+
+    fetchArrivalPlace();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [facilityName]);
 
   const [startAt, setStartAt] = useState("");
   const [returnAt, setReturnAt] = useState(""); 
 
-const [capacity, setCapacity] = useState("");
-const capacityInputRef = useRef<TextInput | null>(null);
+  const [capacity, setCapacity] = useState("");
+  const capacityInputRef = useRef<TextInput | null>(null);
 
   const [genderLimit, setGenderLimit] = useState<GenderType>("ALL");
 
@@ -93,100 +136,108 @@ const capacityInputRef = useRef<TextInput | null>(null);
       startAt: startAtIso,
       endAt: endAtIso,
       description: etc,
-      // departure, arrival: 카카오 API 연동 후 수정예정
+      departure: departurePlace,
+      arrival: arrivalPlace,
     };
     console.log(body);
     onCreateSuccess?.(); 
   };
 
   return (
-    <View className="px-5 mt-6 mb-10">
-      <View className="mb-5">
-        <Label>날짜</Label>
-        <PartyDateSection
-          options={dateOptions}
-          value={partyDate}
-          onChange={setPartyDate}
-        />
+    <>
+      <View className="px-5 mt-6 mb-10">
+        <View className="mb-5">
+          <Label>날짜</Label>
+          <PartyDateSection
+            options={dateOptions}
+            value={partyDate}
+            onChange={setPartyDate}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>파티 유형</Label>
+          <SegmentGroup<PartyType>
+            options={partyTypeOptions}
+            value={partyType}
+            onChange={setPartyType}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>이동 형태</Label>
+          <SegmentGroup<RouteType>
+            options={routeTypeOptions}
+            value={routeType}
+            onChange={setRouteType}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>장소</Label>
+          <LocationSection
+            departure={departure}
+            arrivalLabel={arrivalLabel}
+            onChangeDeparture={setDeparture}
+            onPressSearchDeparture={() => setIsDepartureSearchOpen(true)}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>집합 시간</Label>
+          <TimeSection
+            routeType={routeType}
+            startAt={startAt}
+            returnAt={returnAt}
+            onChangeStartAt={setStartAt}
+            onChangeReturnAt={setReturnAt}
+          />
+        </View>
+
+        <View className="mb-5">
+          <CapacitySection
+            capacity={capacity}
+            onChangeCapacity={setCapacity}
+            inputRef={capacityInputRef}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>성별 제한</Label>
+          <SegmentGroup
+            options={genderOptions}
+            value={genderLimit}
+            onChange={setGenderLimit}
+          />
+        </View>
+
+        <View className="mb-5">
+          <Label>나이 제한</Label>
+          <AgeLimitSection
+            hasAgeLimit={hasAgeLimit}
+            onChangeHasAgeLimit={setHasAgeLimit}
+            minBirthYear={minBirthYear}
+            maxBirthYear={maxBirthYear}
+            onChangeMinBirthYear={setMinBirthYear}
+            onChangeMaxBirthYear={setMaxBirthYear}
+          />
+        </View>
+
+        <View className="mb-8">
+          <Label>기타</Label>
+          <EtcSection value={etc} onChange={setEtc} />
+        </View>
+
+        <CreatePartyButton
+          onPress={handleCreateParty} />
       </View>
 
-      <View className="mb-5">
-        <Label>파티 유형</Label>
-        <SegmentGroup<PartyType>
-          options={partyTypeOptions}
-          value={partyType}
-          onChange={setPartyType}
-        />
-      </View>
-
-      <View className="mb-5">
-        <Label>이동 형태</Label>
-        <SegmentGroup<RouteType>
-          options={routeTypeOptions}
-          value={routeType}
-          onChange={setRouteType}
-        />
-      </View>
-
-      <View className="mb-5">
-        <Label>장소</Label>
-        <LocationSection
-          departure={departure}
-          arrival={arrival}
-          onChangeDeparture={setDeparture}
-          onPressSearch={() => {
-            // 카카오 주소 API 연동
-          }}
+      <KakaoPlaceSearchModal
+        visible={isDepartureSearchOpen}
+        onClose={() => setIsDepartureSearchOpen(false)}
+        onSelect={handleSelectDeparturePlace}
+        title="출발지 검색"
       />
-      </View>
-
-      <View className="mb-5">
-        <Label>집합 시간</Label>
-        <TimeSection
-          routeType={routeType}
-          startAt={startAt}
-          returnAt={returnAt}
-          onChangeStartAt={setStartAt}
-          onChangeReturnAt={setReturnAt}
-        />
-      </View>
-
-      <View className="mb-5">
-        <CapacitySection
-          capacity={capacity}
-          onChangeCapacity={setCapacity}
-          inputRef={capacityInputRef}
-        />
-      </View>
-
-      <View className="mb-5">
-        <Label>성별 제한</Label>
-        <SegmentGroup
-          options={genderOptions}
-          value={genderLimit}
-          onChange={setGenderLimit}
-        />
-      </View>
-
-      <View className="mb-5">
-        <Label>나이 제한</Label>
-        <AgeLimitSection
-          hasAgeLimit={hasAgeLimit}
-          onChangeHasAgeLimit={setHasAgeLimit}
-          minBirthYear={minBirthYear}
-          maxBirthYear={maxBirthYear}
-          onChangeMinBirthYear={setMinBirthYear}
-          onChangeMaxBirthYear={setMaxBirthYear}
-        />
-      </View>
-
-      <View className="mb-8">
-        <Label>기타</Label>
-        <EtcSection value={etc} onChange={setEtc} />
-      </View>
-
-      <CreatePartyButton
-        onPress={handleCreateParty} />
-    </View>
+    </>
   );
 }

@@ -24,13 +24,19 @@
       setTimeout(() => {
         setShowToast(false);
         
-      navigation.navigate("ChooseEventScreen" as never);
-    }, 1500);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "ChooseEventScreen" as never }],
+        });
+      }, 1500);
   };
 
     return (
       <>
-      <ScrollView className="flex-1 bg-white">
+        <ScrollView 
+          className="flex-1 bg-white"
+          keyboardShouldPersistTaps="handled" 
+        >
           <PartyHeader
             eventName={eventName}
             facilityName={facilityName}
@@ -45,13 +51,13 @@
             endDate={endDate}
             onCreateSuccess={handleCreatePartySuccess}
           />
-      </ScrollView>
+        </ScrollView>
 
-      <CommonToast
-        visible={showToast}
-        message="파티가 생성되었습니다!"
-        subMessage="“파티 목록 - MY 탭”에서 확인하기"
-      />
+        <CommonToast
+          visible={showToast}
+          message="파티가 생성되었습니다!"
+          subMessage="[파티 목록] - [MY] 탭에서 확인하기"
+        />
       </>
     );
   }
