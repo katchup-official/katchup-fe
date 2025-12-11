@@ -5,7 +5,7 @@ import CreatePartyScreen from "../create-p";
 export type CreatePartyStackParamList = {
   ChooseEventScreen: undefined;
   CreatePartyScreen: {
-    eventId: number;
+    eventId: string;
     eventName: string;
     facilityName: string;
     startDate: string;

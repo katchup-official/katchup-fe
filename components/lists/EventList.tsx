@@ -57,7 +57,7 @@ export default function EventList({
                   navigation.navigate("CreatePartyStack", {
                     screen: "CreatePartyScreen",
                     params: {
-                      eventId: Number(item.eventId),
+                      eventId: item.eventId,
                       eventName: item.eventName,
                       facilityName: item.facilityName,
                       startDate: item.startDate,
@@ -70,7 +70,7 @@ export default function EventList({
                 navigation.navigate("MainStack", {
                   screen: "MainPartyScreen",
                   params: {
-                    eventId: Number(item.eventId),
+                    eventId: item.eventId,
                     eventName: item.eventName,
                     facilityName: item.facilityName,
                     startDate: item.startDate,
