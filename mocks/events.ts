@@ -6,7 +6,7 @@ export const events: EventItem[] = [
     eventId: "PF123456",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-08-01",
-    endDate: "2025-09-07",
+    endDate: "2025-08-05",
     facilityName: "예술의전당 오페라극장",
     posterUrl: "https://img.sbs.co.kr/newsnet/etv/upload/2023/08/24/30000870881.jpg",
     genreName: "뮤지컬",

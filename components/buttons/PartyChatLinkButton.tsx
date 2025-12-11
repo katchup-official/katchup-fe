@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
+import ShortToast from "../toasts/ShortToast";
 
 type PartyChatLinkButtonProps = {
   chatUrl: string;
@@ -55,17 +56,12 @@ export default function PartyChatLinkButton({ chatUrl }: PartyChatLinkButtonProp
         </TouchableOpacity>
       </View>
 
-      {showToast && (
-        <View className="absolute -bottom-3 left-0 right-0 items-center">
-          <View
-            className="px-4 py-2 rounded-lg bg-black/70"
-          >
-            <Text style={[fonts.smallText, { color: colors.white }]}>
-              복사되었습니다.
-            </Text>
-          </View>
-        </View>
-      )}
+    {showToast && (
+    <View className="absolute -bottom-3 left-0 right-0 items-center">
+        <ShortToast message="복사되었습니다." />
+    </View>
+    )}
+
     </View>
   );
 }

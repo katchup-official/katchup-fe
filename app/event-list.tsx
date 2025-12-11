@@ -14,6 +14,7 @@ export default function EventListScreen(){
                     countEventNum={null}
                     isSearched={false}
                     isAllEventMode={true}
+                    isCreatePartyMode={false}
                 />
         </ScrollView>
         </View>

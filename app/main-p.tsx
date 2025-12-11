@@ -68,6 +68,7 @@ export default function MainPartyScreen() {
             startDate={startDate}
             endDate={endDate}
             countPartyNum={10}
+            showListTitle={true}
           />
           <PartySortFilterBar
             sortOption={sortOption}

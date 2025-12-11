@@ -11,9 +11,10 @@ interface PartyHeaderProps {
     startDate: string;
     endDate: string;
     countPartyNum?: number;
+    showListTitle?: boolean;
 }
 
-export default function PartyHeader({ eventName, facilityName, startDate, endDate, countPartyNum }: PartyHeaderProps) {
+export default function PartyHeader({ eventName, facilityName, startDate, endDate, countPartyNum, showListTitle = true, }: PartyHeaderProps) {
     const navigation = useNavigation();
     return (
         <View className="mt-6">
@@ -22,6 +23,7 @@ export default function PartyHeader({ eventName, facilityName, startDate, endDat
                     <Ionicons name="chevron-back" size={28} color={colors.black} />
                 </TouchableOpacity>
 
+                {showListTitle && (
                 <Text
                     className="text-[22px] font-[Paperlogy-Medium] ml-4"
                     style={{ color: colors.black }}
@@ -29,6 +31,7 @@ export default function PartyHeader({ eventName, facilityName, startDate, endDat
                 >
                     파티 목록 ({countPartyNum})
                 </Text>
+                )}
             </View>
             <View
                 className="mx-5 px-5 py-6"

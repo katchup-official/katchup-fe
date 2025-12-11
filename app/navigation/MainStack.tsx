@@ -5,6 +5,7 @@ import MainPartyScreen from "../main-p";
 export type MainStackParamList = {
   MainEventScreen: undefined;
   MainPartyScreen: {
+    eventId: string;
     eventName: string;
     facilityName: string;
     startDate: string;

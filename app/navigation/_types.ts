@@ -1,4 +1,6 @@
+import type { NavigatorScreenParams } from "@react-navigation/native";
 import { MainStackParamList } from "./MainStack";
+import { CreatePartyStackParamList } from "./CreatePartyStack";
 
 export type RootStackParamList = {
   GreetingScreen: undefined;
@@ -6,7 +8,7 @@ export type RootStackParamList = {
 };
 
 export type RootTabParamList = {
-  CreatePartyScreen: undefined;
+  CreatePartyStack: NavigatorScreenParams<CreatePartyStackParamList>;
   PartyListScreen: undefined;
   MainStack: {
     screen: keyof MainStackParamList;

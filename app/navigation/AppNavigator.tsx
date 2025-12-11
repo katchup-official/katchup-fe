@@ -4,7 +4,7 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
 import type { RootTabParamList } from "./_types";
 
-import CreatePartyScreen from "../create-party";
+import CreatePartyStack from "./CreatePartyStack";
 import PartyListScreen from "../party-list";
 import MainStack from "./MainStack";
 import EventListScreen from "../event-list";
@@ -36,7 +36,7 @@ export default function AppNavigator() {
         tabBarIcon: ({ color }) => {
           const size = 29;
           switch (route.name) {
-            case "CreatePartyScreen":
+            case "CreatePartyStack":
               return <Feather name="edit" size={size} color={color} />;
             case "PartyListScreen":
               return <Ionicons name="list-outline" size={size} color={color} />;
@@ -50,7 +50,7 @@ export default function AppNavigator() {
         },
       })}
     >
-      <Tab.Screen name="CreatePartyScreen" component={CreatePartyScreen} />
+      <Tab.Screen name="CreatePartyStack" component={CreatePartyStack} />
       <Tab.Screen name="PartyListScreen" component={PartyListScreen} />
       <Tab.Screen name="MainStack" component={MainStack} />
       <Tab.Screen name="EventListScreen" component={EventListScreen} />

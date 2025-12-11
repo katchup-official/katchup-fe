@@ -6,9 +6,10 @@ import { colors } from "@/constants/colors";
 
 interface EventSearchBarProps {
     onSearch?: (query: string) => void;
+    placeholderText?: string; 
 }
 
-export default function EventSearchBar({onSearch} : EventSearchBarProps) {
+export default function EventSearchBar({ onSearch, placeholderText } : EventSearchBarProps) {
     const [query, setQuery] = React.useState("");
 
     //추후 API 연동 시 수정
@@ -29,7 +30,7 @@ export default function EventSearchBar({onSearch} : EventSearchBarProps) {
                     fonts.mediumText,
                     {color: colors.black}
                 ]}
-                placeholder="가고 싶은 행사를 입력해주세요."
+                placeholder={placeholderText}
                 placeholderTextColor={colors.gray}
                 returnKeyType="search"
                 blurOnSubmit={false}
