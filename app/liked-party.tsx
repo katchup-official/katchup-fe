@@ -2,7 +2,7 @@ import React from "react";
 import { View,ScrollView } from "react-native";
 import EventList from "@/components/lists/EventList";
 
-export default function EventListScreen(){
+export default function LikedPartyListScreen(){
 
     return (
         <View className="flex-1 bg-white">
