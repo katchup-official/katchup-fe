@@ -15,7 +15,7 @@ export default function CreateKatchup({message}: CreateKatchupProps) {
     >
       <Image 
         source={require("@/assets/images/sauce.png")} 
-        className="w-[110px] h-[110px] mb-4"
+        className="w-[110px] h-[110px] mb-10"
         resizeMode="contain"
       />
 
