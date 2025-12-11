@@ -20,7 +20,7 @@ export interface PartyItem {
     host: {
     memberId: number;
     nickname: string | null;
-    profileImageUrl: number;
+    profileImage: number;
     role: 'HOST' | 'PARTICIPANT';
   };
   location: {

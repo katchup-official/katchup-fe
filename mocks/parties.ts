@@ -18,7 +18,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 34,
           "nickname": "쥬디무디",
-          "profileImageUrl": 1,
+          "profileImage": 1,
           "role": "HOST"
         },
         "location": {
@@ -49,7 +49,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": "민듀",
-          "profileImageUrl": 2,
+          "profileImage": 2,
           "role": "HOST"
         },
         "location": {
@@ -80,7 +80,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": "채민주채민주채민",
-          "profileImageUrl": 4,
+          "profileImage": 4,
           "role": "HOST"
         },
         "location": {
@@ -111,7 +111,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": "minjuchai",
-          "profileImageUrl": 3,
+          "profileImage": 3,
           "role": "HOST"
         },
         "location": {
@@ -142,7 +142,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": null,
-          "profileImageUrl": 4,
+          "profileImage": 4,
           "role": "HOST"
         },
         "location": {
@@ -173,7 +173,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": null,
-          "profileImageUrl": 1,
+          "profileImage": 1,
           "role": "HOST"
         },
         "location": {
@@ -204,7 +204,7 @@ export const parties: PartyItem[] = [
         "host": {
           "memberId": 1,
           "nickname": null,
-          "profileImageUrl": 3,
+          "profileImage": 3,
           "role": "HOST"
         },
         "location": {
