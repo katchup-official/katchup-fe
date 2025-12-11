@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { View, TextInput } from "react-native";
+import { View, TextInput, } from "react-native";
 import { getDateRange, toKSTIsoString } from "@/utils/dateTime";
 import { PartyType, RouteType, GenderType } from "@/types/party";
 import type { KakaoPlace } from "@/types/kakao-place";
@@ -23,6 +23,7 @@ interface CreatePartyProps {
   startDate: string;
   endDate: string;
   onCreateSuccess?: () => void;
+  onEtcFocus?: () => void; 
 }
 
 export default function CreateParty({
@@ -31,6 +32,7 @@ export default function CreateParty({
   startDate,
   endDate,
   onCreateSuccess,
+  onEtcFocus,
 }: CreatePartyProps) {
   
   const [partyDate, setPartyDate] = useState(startDate);
@@ -118,7 +120,33 @@ export default function CreateParty({
 
   const [etc, setEtc] = useState("");
 
+  // 입력폼 유효성 확인
+  const isRoundTrip = routeType === "ROUND_TRIP";
+
+  const isTimeValid =
+    !!startAt && (!isRoundTrip || !!returnAt);
+
+  const isAgeValid =
+    !hasAgeLimit || (!!minBirthYear && !!maxBirthYear);
+
+  const isBasicFilled =
+    !!eventId &&
+    !!partyDate &&
+    !!partyType &&
+    !!routeType &&
+    !!departurePlace &&
+    !!arrivalPlace &&
+    !!capacity &&
+    !!genderLimit;
+
+  const isFormValid = isBasicFilled && isTimeValid && isAgeValid;
+
   const handleCreateParty = () => {
+    if (!isFormValid) {
+      console.log("필수 항목이 모두 채워지지 않았습니다.");
+      return;
+    }
+
     const startAtIso = toKSTIsoString(partyDate, startAt);
     const endAtIso =
     routeType === "ROUND_TRIP" && returnAt
@@ -225,11 +253,17 @@ export default function CreateParty({
 
         <View className="mb-8">
           <Label>기타</Label>
-          <EtcSection value={etc} onChange={setEtc} />
+          <EtcSection 
+            value={etc} 
+            onChange={setEtc}
+            onFocus={onEtcFocus}
+          />
         </View>
 
         <CreatePartyButton
-          onPress={handleCreateParty} />
+          onPress={handleCreateParty}
+          disabled={!isFormValid}
+        />
       </View>
 
       <KakaoPlaceSearchModal

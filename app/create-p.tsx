@@ -1,5 +1,5 @@
-  import React, { useState } from "react";
-  import { ScrollView } from "react-native";
+  import React, { useState, useRef } from "react";
+  import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
   import { useNavigation, useRoute } from "@react-navigation/native";
   import type { RouteProp } from "@react-navigation/native";
   import PartyHeader from "@/components/bars/PartyHeader";
@@ -17,6 +17,7 @@
     const { params } = useRoute<CreatePartyScreenRouteProp>();
     const { eventId, eventName, facilityName, startDate, endDate } = params;
     const [showToast, setShowToast] = useState(false);
+    const scrollRef = useRef<ScrollView | null>(null);
 
     const handleCreatePartySuccess = () => {
       setShowToast(true);
@@ -31,27 +32,42 @@
       }, 1500);
   };
 
+  const handleEtcFocus = () => {
+    setTimeout(() => {
+      scrollRef.current?.scrollToEnd({ animated: true });
+    }, 120);
+  };
+
     return (
       <>
-        <ScrollView 
-          className="flex-1 bg-white"
-          keyboardShouldPersistTaps="handled" 
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
         >
-          <PartyHeader
-            eventName={eventName}
-            facilityName={facilityName}
-            startDate={startDate}
-            endDate={endDate}
-            showListTitle={false}
-          />
-          <CreateParty
-            eventId={eventId}
-            facilityName={facilityName}
-            startDate={startDate}
-            endDate={endDate}
-            onCreateSuccess={handleCreatePartySuccess}
-          />
-        </ScrollView>
+          <ScrollView
+            ref={scrollRef}  
+            className="flex-1 bg-white"
+            contentContainerStyle={{ paddingBottom: 40 }}
+            keyboardShouldPersistTaps="handled" 
+          >
+            <PartyHeader
+              eventName={eventName}
+              facilityName={facilityName}
+              startDate={startDate}
+              endDate={endDate}
+              showListTitle={false}
+            />
+            <CreateParty
+              eventId={eventId}
+              facilityName={facilityName}
+              startDate={startDate}
+              endDate={endDate}
+              onCreateSuccess={handleCreatePartySuccess}
+              onEtcFocus={handleEtcFocus}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
 
         <CommonToast
           visible={showToast}

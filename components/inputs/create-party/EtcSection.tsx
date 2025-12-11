@@ -7,19 +7,22 @@ import { inputBoxStyle } from "@/styles/inputBox";
 type EtcSectionProps = {
   value: string;
   onChange: (value: string) => void;
+  onFocus?: () => void;
 };
 
-export default function EtcSection({ value, onChange }: EtcSectionProps) {
+export default function EtcSection({ value, onChange, onFocus }: EtcSectionProps) {
 
   return (
     <View style={[inputBoxStyle, { minHeight: 90, backgroundColor: "#fff" }]}>
       <TextInput
         value={value}
         onChangeText={onChange}
-        placeholder="파티에 대한 추가 설명을 입력해주세요."
+        placeholder="파티에 대한 추가 설명을 입력해주세요.(300자 이내)"
         placeholderTextColor={colors.gray}
         style={[fonts.mediumText, { color: colors.black }]}
         multiline
+        maxLength={300}
+        onFocus={onFocus}
       />
     </View>
   );
