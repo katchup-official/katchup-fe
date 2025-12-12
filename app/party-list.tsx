@@ -7,7 +7,7 @@ import type { PartyItem } from "@/types/party";
 import { parties } from "@/mocks/parties";
 import { colors } from "@/constants/colors";
 import PartyListTitle from "@/components/titles/PartyListTitle";
-import PartyListButtons from "@/components/buttons/PartyListButtons";
+import PartyListBar from "@/components/bars/PartyListBar";
 
 export default function PartyListScreen(){
   
@@ -45,8 +45,8 @@ export default function PartyListScreen(){
         onPress={clearSelection}
       >
         <ScrollView className="flex-1" style={{ backgroundColor: colors.white }}>
-          <PartyListTitle />
-          <PartyListButtons 
+          <PartyListTitle title="파티 목록"/>
+          <PartyListBar
             selectedTab={selectedTab}
             onChangeTab={setSelectedTab}
           />
