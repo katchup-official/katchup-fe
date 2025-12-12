@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { TouchableOpacity, ScrollView } from "react-native";
 import PartyList from "@/components/lists/PartyList";
 import PartyBottomSheet from "@/components/lists/PartyBottomSheet";
 
@@ -7,19 +7,17 @@ import type { PartyItem } from "@/types/party";
 import { parties } from "@/mocks/parties";
 import { colors } from "@/constants/colors";
 import PartyListTitle from "@/components/titles/PartyListTitle";
-import PartyListBar from "@/components/bars/PartyListBar";
+import LikedPartyBar from "@/components/bars/LikedPartyBar";
 
-export default function PartyListScreen(){
-  
+export default function LikedPartyListScreen(){
   const [partyData, setPartyData] = useState(parties);
-  const [selectedTab, setSelectedTab] = useState<"ALL" | "MY">("ALL");
-
+  
   const [selectedPartyId, setSelectedPartyId] = useState<number | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  
+    
   const selectedParty =
     partyData.find((party) => party.partyId === selectedPartyId) ?? null;
-
+  
   const handleToggleLike = (id: number) => {
     setPartyData(prev =>
       prev.map(item =>
@@ -27,7 +25,7 @@ export default function PartyListScreen(){
       )
     );
   };
-
+    
   const handleSelectParty = (party: PartyItem) => {
       setSelectedPartyId(party.partyId);
       setIsBottomSheetOpen(true);
@@ -40,31 +38,28 @@ export default function PartyListScreen(){
   return (
     <>
       <TouchableOpacity 
-        activeOpacity={1} 
-        style={{ flex: 1 }} 
-        onPress={clearSelection}
+          activeOpacity={1} 
+          style={{ flex: 1 }} 
+          onPress={clearSelection}
       >
         <ScrollView className="flex-1" style={{ backgroundColor: colors.white }}>
-          <PartyListTitle title="파티 목록"/>
-          <PartyListBar
-            selectedTab={selectedTab}
-            onChangeTab={setSelectedTab}
-          />
+          <PartyListTitle title="관심 목록"/>
+          <LikedPartyBar/>
           <PartyList 
-            partyData={partyData} 
-            countPartyNum={10}
-            onToggleLike={handleToggleLike}
-            onSelectParty={handleSelectParty}
-            selectedPartyId={selectedPartyId}
+              partyData={partyData} 
+              countPartyNum={10}
+              onToggleLike={handleToggleLike}
+              onSelectParty={handleSelectParty}
+              selectedPartyId={selectedPartyId}
           />
         </ScrollView>
       </TouchableOpacity>
 
       <PartyBottomSheet
-        isVisible={isBottomSheetOpen}
-        party={selectedParty}
-        onClose={() => { setIsBottomSheetOpen(false);}}
-        onToggleLike={handleToggleLike}
+          isVisible={isBottomSheetOpen}
+          party={selectedParty}
+          onClose={() => { setIsBottomSheetOpen(false);}}
+          onToggleLike={handleToggleLike}
       />
     </>
   );

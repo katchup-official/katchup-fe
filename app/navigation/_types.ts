@@ -14,6 +14,6 @@ export type RootTabParamList = {
     screen: keyof MainStackParamList;
     params?: MainStackParamList[keyof MainStackParamList];
   };
-  EventListScreen: undefined;
+  LikedPartyListScreen: undefined;
   MyScreen: undefined;
 };

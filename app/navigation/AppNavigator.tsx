@@ -7,7 +7,7 @@ import type { RootTabParamList } from "./_types";
 import CreatePartyStack from "./CreatePartyStack";
 import PartyListScreen from "../party-list";
 import MainStack from "./MainStack";
-import EventListScreen from "../event-list";
+import LikedPartyListScreen from "../liked-party";
 import MyScreen from "../my";
 import AppHeader from "@/components/bars/AppHeader";
 
@@ -42,8 +42,8 @@ export default function AppNavigator() {
               return <Ionicons name="list-outline" size={size} color={color} />;
             case "MainStack":
               return <Ionicons name="home" size={size} color={color} />;
-            case "EventListScreen":
-              return <Ionicons name="location-outline" size={size} color={color} />;
+            case "LikedPartyListScreen":
+              return <Ionicons name="heart" size={size} color={color} />;
             case "MyScreen":
               return <Ionicons name="person-outline" size={size} color={color} />;
           }
@@ -53,7 +53,7 @@ export default function AppNavigator() {
       <Tab.Screen name="CreatePartyStack" component={CreatePartyStack} />
       <Tab.Screen name="PartyListScreen" component={PartyListScreen} />
       <Tab.Screen name="MainStack" component={MainStack} />
-      <Tab.Screen name="EventListScreen" component={EventListScreen} />
+      <Tab.Screen name="LikedPartyListScreen" component={LikedPartyListScreen} />
       <Tab.Screen name="MyScreen" component={MyScreen} />
     </Tab.Navigator>
     </>
