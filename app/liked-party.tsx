@@ -11,7 +11,6 @@ import LikedPartyBar from "@/components/bars/LikedPartyBar";
 
 export default function LikedPartyListScreen(){
   const [partyData, setPartyData] = useState(parties);
-  const [selectedTab, setSelectedTab] = useState<"ALL" | "MY">("ALL");
   
   const [selectedPartyId, setSelectedPartyId] = useState<number | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
