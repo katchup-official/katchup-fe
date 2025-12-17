@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "expo-router";
 import { View, Image, TouchableOpacity, SafeAreaView } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
@@ -6,6 +7,7 @@ import { colors } from "@/constants/colors";
 const LOGO3 = require("../../assets/images/katchup-logo3.png"); 
 
 export default function AppHeader() {
+    const router = useRouter();
     return (
         <SafeAreaView
             style={{ backgroundColor: colors.white }}
@@ -27,6 +29,7 @@ export default function AppHeader() {
                     
                     <TouchableOpacity className="ml-4"
                         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        onPress={() => router.push("/settings")}
                     >
                         <Feather name="menu" size={28} color={colors.black} />
                     </TouchableOpacity>
