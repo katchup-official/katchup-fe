@@ -14,4 +14,12 @@ export const colors = {
 
 } as const;
 
+export const styleColors = {
+  style1: "#FE6E4A",
+  style2: "#FEC611",
+  style3: "#EF6368",
+  style4: "#F8937A",
+  
+} as const;
+
 export const confettiColors = ["#F59E0B", "#EF4444", "#F97316", "#FDBA74", "#FCA5A5"];
