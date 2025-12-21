@@ -5,8 +5,32 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 
+import { Alert } from "react-native";
+import { memberLogout } from "@/apis/logoutApi";
+
 export default function SettingsScreen() {
   const router = useRouter();
+
+  const handleLogout = () => {
+    Alert.alert(
+      "로그아웃",
+      "정말 로그아웃 하시겠어요?",
+      [
+        { text: "취소", style: "cancel" },
+        {
+          text: "로그아웃",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await memberLogout();
+            } finally {
+              router.replace("/login");
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View className="flex-1 bg-white">
@@ -24,8 +48,7 @@ export default function SettingsScreen() {
         <TouchableOpacity
           activeOpacity={0.6}
           className="py-4"
-          onPress={() => {
-          }}
+          onPress={handleLogout}
         >
           <Text
             style={[
