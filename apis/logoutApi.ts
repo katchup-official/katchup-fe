@@ -1,5 +1,11 @@
 import axiosWithAuthorization from "@/apis/auth/axiosWithAuthorization";
 import { clearAccessToken } from "@/apis/auth/authStorage";
+import { useMemberStore } from "@/stores/useMemberStore";
+
+export async function clearClientSession() {
+  await clearAccessToken();
+  useMemberStore.getState().clearProfile();
+}
 
 export async function memberLogout() {
   try {
@@ -7,7 +13,7 @@ export async function memberLogout() {
   } catch (e) {
     console.warn("[Logout] server logout failed", e);
   } finally {
-    await clearAccessToken();
+    await clearClientSession();
   }
 }
 
@@ -17,6 +23,6 @@ export async function memberWithdrawal() {
   } catch (e) {
     console.warn("[Withdrawal] server withdrawal failed", e);
   } finally {
-    await clearAccessToken();
+    await clearClientSession();
   }
 }

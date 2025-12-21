@@ -9,6 +9,7 @@ import { memberLogout, memberWithdrawal } from "@/apis/logoutApi";
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = React.useState(false);
 
   const handleLogout = () => {
     Alert.alert(
@@ -20,11 +21,23 @@ export default function SettingsScreen() {
           text: "로그아웃",
           style: "destructive",
           onPress: async () => {
+            if (isProcessing) return;
+            setIsProcessing(true);
             try {
               await memberLogout();
-            } finally {
-              router.replace("/login");
+              Alert.alert("완료", "로그아웃 되었습니다!", [
+                { text: "확인", 
+                  onPress: () => {
+                    setIsProcessing(false);
+                    router.replace("/login");
+                  },
+                },
+              ]);
+              return;
+            } catch {
+              Alert.alert("실패", "로그아웃에 실패했습니다.\n잠시 후 다시 시도해주세요.");
             }
+            setIsProcessing(false);
           },
         },
       ]
@@ -41,11 +54,22 @@ export default function SettingsScreen() {
           text: "탈퇴하기",
           style: "destructive",
           onPress: async () => {
+            if (isProcessing) return;
+            setIsProcessing(true);
             try {
               await memberWithdrawal();
-            } finally {
-              router.replace("/login");
+              Alert.alert("완료", "회원탈퇴 되었습니다!", [
+                { text: "확인",
+                  onPress: () => {
+                    setIsProcessing(false);
+                    router.replace("/login");
+                  },
+                },
+              ]);
+            } catch {
+              Alert.alert("실패", "회원탈퇴에 실패했습니다.\n잠시 후 다시 시도해주세요.");
             }
+              setIsProcessing(false);
           },
         },
       ]
@@ -59,6 +83,8 @@ export default function SettingsScreen() {
           onPress={() => router.back()}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           className="w-[40px] h-[40px] justify-center"
+          disabled={isProcessing}
+          style={{ opacity: isProcessing ? 0.5 : 1 }}
         >
           <Ionicons name="chevron-back" size={30} color={colors.black} />
         </TouchableOpacity>
@@ -69,6 +95,8 @@ export default function SettingsScreen() {
           activeOpacity={0.6}
           className="py-4"
           onPress={handleLogout}
+          disabled={isProcessing}
+          style={{ opacity: isProcessing ? 0.5 : 1 }}
         >
           <Text
             style={[
@@ -84,6 +112,8 @@ export default function SettingsScreen() {
           activeOpacity={0.6}
           className="py-3 mt-4"
           onPress={handleWithdrawal}
+          disabled={isProcessing}
+          style={{ opacity: isProcessing ? 0.5 : 1 }}
         >
           <Text
             style={[
