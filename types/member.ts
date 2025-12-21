@@ -1,10 +1,10 @@
 export type Member = {
   memberId: number;
-  nickname: string;
+  nickname: string | null;
   gender: "MALE" | "FEMALE";
   birthYear: string;
-  profileImage: number;
-  style: MemberStyle;
+  profileImage: number | null;
+  style: MemberStyle | null;
 };
 
 export type MemberStyle = {
