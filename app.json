@@ -4,14 +4,22 @@
     "slug": "katchup-fe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "katchupfe",
+    "scheme": "katchup",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.judy59.katchupfe",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.judy59.katchupfe"
     },
     "web": {
       "bundler": "metro",
@@ -19,10 +27,19 @@
       "favicon": "./assets/images/katchup-logo2.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-web-browser",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0d45e4b5-e5ee-4cdd-8e4e-b66d94ded0c7"
+      }
+    },
+    "owner": "judy59"
   }
 }
