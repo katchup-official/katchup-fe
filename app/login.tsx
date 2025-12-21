@@ -11,7 +11,7 @@ const KAKAO_BTN = require("../assets/images/kakao-login-btn.png");
 
 import { getKakaoCode } from "@/apis/auth/kakaoAuth";
 import { socialLoginWithCode } from "@/apis/loginApi";
-import { getMemberInfo } from "@/apis/memberApi";
+import { getMyMemberInfo } from "@/apis/memberApi";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -27,9 +27,9 @@ export default function LoginScreen() {
       if (!code) throw new Error("인가 코드(code)를 받지 못했습니다.");
 
       await socialLoginWithCode(code);
-      Alert.alert("로그인 성공", "카카오 로그인이 완료되었습니다!");
+      Alert.alert("로그인 성공", "카카오 로그인에 성공했습니다!");
 
-      const me = await getMemberInfo();
+      const me = await getMyMemberInfo();
       const needSignup = !me?.nickname || !me?.style;
       router.replace(needSignup ? "/signup/nickname" : "/mainTabs");
     } catch (e: any) {

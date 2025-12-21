@@ -8,7 +8,7 @@ export type MemberResponse = {
   timestamp?: string;
 };
 
-export async function getMemberInfo(): Promise<Member> {
+export async function getMyMemberInfo(): Promise<Member> {
   const res = await axiosWithAuthorization.get<MemberResponse>("/members/me");
   return res.data.data;
 }

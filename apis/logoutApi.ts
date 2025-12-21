@@ -10,3 +10,13 @@ export async function memberLogout() {
     await clearAccessToken();
   }
 }
+
+export async function memberWithdrawal() {
+  try {
+    await axiosWithAuthorization.post("/members/withdrawal");
+  } catch (e) {
+    console.warn("[Withdrawal] server withdrawal failed", e);
+  } finally {
+    await clearAccessToken();
+  }
+}
