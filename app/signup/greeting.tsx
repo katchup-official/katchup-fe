@@ -73,7 +73,7 @@ export default function GreetingScreen() {
 
         <SignupButton
         label="시작하기"
-        onPress={() => router.push("/mainTabs")} 
+        onPress={() => router.push("/main-screens/mainTabs")} 
         containerStyle={{ paddingBottom: Math.max(insets.bottom, 24) }}
       />
 

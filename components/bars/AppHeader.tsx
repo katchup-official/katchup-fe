@@ -23,6 +23,7 @@ export default function AppHeader() {
                 <View className="flex-row items-center">
                     <TouchableOpacity 
                         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        onPress={() => router.push("/alarms")}
                     >
                         <Ionicons name="notifications-outline" size={28} color={colors.orange} />
                     </TouchableOpacity>

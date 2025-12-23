@@ -2,12 +2,12 @@ import React from "react";
 import { View, ImageBackground, TouchableOpacity, Image, Alert } from "react-native";
 import { useRouter } from "expo-router";
 
-import LoginTitle from "../components/titles/LoginTitle";
-import { colors } from "../constants/colors";
+import LoginTitle from "@/components/titles/LoginTitle";
+import { colors } from "@/constants/colors";
 
-const BG_IMG = require("../assets/images/login-background.png");
-const LOGO3 = require("../assets/images/katchup-logo3.png"); 
-const KAKAO_BTN = require("../assets/images/kakao-login-btn.png");
+const BG_IMG = require("@/assets/images/login-background.png");
+const LOGO3 = require("@/assets/images/katchup-logo3.png"); 
+const KAKAO_BTN = require("@/assets/images/kakao-login-btn.png");
 
 import { getKakaoCode } from "@/apis/auth/kakaoAuth";
 import { socialLoginWithCode } from "@/apis/loginApi";
@@ -31,7 +31,7 @@ export default function LoginScreen() {
 
       const me = await getMyMemberInfo();
       const needSignup = !me?.nickname || !me?.style;
-      router.replace(needSignup ? "/signup/nickname" : "/mainTabs");
+      router.replace(needSignup ? "/signup/nickname" : "/main-screens/mainTabs");
     } catch (e: any) {
       console.error("[KakaoLogin] error:", e);
       Alert.alert("로그인 실패", "카카오 로그인에 실패했습니다.\n잠시 후 다시 시도해주세요.");

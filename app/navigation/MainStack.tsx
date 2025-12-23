@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainEventScreen from "../main-e";
-import MainPartyScreen from "../main-p";
+import MainEventScreen from "../main-screens/main-e";
+import MainPartyScreen from "../main-screens/main-p";
 
 export type MainStackParamList = {
   MainEventScreen: undefined;
