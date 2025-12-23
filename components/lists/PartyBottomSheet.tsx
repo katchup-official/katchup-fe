@@ -81,13 +81,12 @@ export default function PartyBottomSheet({
     formatGender(party.gender),
   ];
 
-  const isHost = party.host.memberId === member.memberId;
-  const isParticipant = party.isParticipant;
+  const isHost = party.role === "HOST";
+  const isParticipant = party.role === "GUEST";
+  const isJoined = party.role !== "NONE";
 
   const canViewChatLink =
-    party.status === "RECRUIT_COMPLETED" &&
-    (isHost || isParticipant) &&
-    !!party.chatUrl;
+    party.status === "RECRUIT_COMPLETED" && isJoined && !!party.chatUrl;
 
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>

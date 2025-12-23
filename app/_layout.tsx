@@ -37,7 +37,7 @@ export default function RootLayout() {
 
   //로그아웃 리스너
   useEffect(() => {
-    setOnLogoutListener(() => router.replace("/login"));
+    setOnLogoutListener(() => router.replace("/signup/login"));
     return () => clearOnLogoutListener();
   }, []);
 

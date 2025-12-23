@@ -2,6 +2,7 @@ export type PartyStatus = 'RECRUITING' | 'RECRUIT_COMPLETED' | 'COMPLETED';
 export type PartyType = 'SCHEDULE_AND_TRANSPORT' | 'SCHEDULE_ONLY' | 'TRANSPORT_ONLY';
 export type GenderType = 'MALE' | 'FEMALE' | 'ALL';
 export type RouteType = 'ONE_WAY' | 'ROUND_TRIP';
+export type PartyRole = 'HOST' | 'GUEST' | 'NONE';
 
 export interface PartyItem {
   partyId: number;
@@ -17,7 +18,7 @@ export interface PartyItem {
   chatUrl: string | null;
   capacity: number;
   currentParticipants: number;
-    host: {
+  host: {
     memberId: number;
     nickname: string | null;
     profileImage: number;
@@ -32,5 +33,5 @@ export interface PartyItem {
     startLocation: string;
   };
   isLiked: boolean;
-  isParticipant: boolean;
+  role: PartyRole;
 }

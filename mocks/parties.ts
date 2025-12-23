@@ -30,7 +30,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척스카이돔"
         },
         "isLiked": true,
-        "isParticipant": false
+        "role": "GUEST"
       },
       {
         "partyId": 2,
@@ -61,7 +61,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔"
         },
         "isLiked": false,
-        "isParticipant": false
+        "role": "GUEST"
       },
       {
         "partyId": 3,
@@ -92,7 +92,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔돔돔돔"
         },
         "isLiked": false,
-        "isParticipant": true
+        "role": "HOST"
       },
       {
         "partyId": 4,
@@ -123,7 +123,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔"
         },
         "isLiked": false,
-        "isParticipant": false
+        "role": "HOST"
       },
       {
         "partyId": 5,
@@ -154,7 +154,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔"
         },
         "isLiked": false,
-        "isParticipant": false
+        "role": "NONE"
       },
       {
         "partyId": 6,
@@ -185,7 +185,7 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔"
         },
         "isLiked": false,
-        "isParticipant": false
+        "role": "NONE"
       },
       {
         "partyId": 7,
@@ -216,6 +216,6 @@ export const parties: PartyItem[] = [
           "startLocation": "고척 스카이돔"
         },
         "isLiked": false,
-        "isParticipant": false
+        "role": "NONE"
       }
     ];

@@ -29,7 +29,7 @@ export default function SettingsScreen() {
                 { text: "확인", 
                   onPress: () => {
                     setIsProcessing(false);
-                    router.replace("/login");
+                    router.replace("/signup/login");
                   },
                 },
               ]);
@@ -62,7 +62,7 @@ export default function SettingsScreen() {
                 { text: "확인",
                   onPress: () => {
                     setIsProcessing(false);
-                    router.replace("/login");
+                    router.replace("/signup/login");
                   },
                 },
               ]);
