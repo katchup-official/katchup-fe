@@ -119,7 +119,7 @@ export default function PartyList({
                   style={[fonts.largeText, { color: colors.black }]}
                   className="mt-1"
                 >
-                  {truncateText(item.location.startLocation)} {arrow} {truncateText(item.location.placeName)}
+                  {truncateText(item.departure.placeName)} {arrow} {truncateText(item.arrival.placeName)}
                 </Text>
 
                 <View className="flex-row flex-wrap mt-3">

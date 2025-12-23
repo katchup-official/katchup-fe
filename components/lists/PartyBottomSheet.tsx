@@ -155,7 +155,7 @@ export default function PartyBottomSheet({
               />
 
               <Text className="mb-3 text-center" style={[fonts.smallTitle, { color: colors.black, fontSize: 24 }]}>
-                {party.location.startLocation} {arrow} {party.location.placeName}
+                {party.departure.placeName} {arrow} {party.arrival.placeName}
               </Text>
 
               <View className="border rounded-xl px-4 py-3 mb-4" style={{ borderColor: colors.orange }}>

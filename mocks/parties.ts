@@ -21,13 +21,19 @@ export const parties: PartyItem[] = [
           "profileImage": 1,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": true,
         "role": "GUEST"
@@ -52,13 +58,19 @@ export const parties: PartyItem[] = [
           "profileImage": 2,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "GUEST"
@@ -83,13 +95,19 @@ export const parties: PartyItem[] = [
           "profileImage": 4,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔돔돔돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "HOST"
@@ -114,13 +132,19 @@ export const parties: PartyItem[] = [
           "profileImage": 3,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "HOST"
@@ -145,13 +169,19 @@ export const parties: PartyItem[] = [
           "profileImage": 4,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "NONE"
@@ -176,13 +206,19 @@ export const parties: PartyItem[] = [
           "profileImage": 1,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "NONE"
@@ -207,13 +243,19 @@ export const parties: PartyItem[] = [
           "profileImage": 3,
           "role": "HOST"
         },
-        "location": {
+        "departure": {
           "placeName": "카카오프렌즈 코엑스점",
           "addressName": "서울 강남구 삼성동 159",
           "roadAddressName": "서울 강남구 영동대로 513",
           "latitude": 37.51207412593136,
-          "longitude": 127.05902969025047,
-          "startLocation": "고척 스카이돔"
+          "longitude": 127.05902969025047
+        },
+        "arrival": {
+          "placeName": "고척 스카이돔",
+          "addressName": "서울 강남구 삼성동 159",
+          "roadAddressName": "서울 강남구 영동대로 513",
+          "latitude": 37.51207412593136,
+          "longitude": 127.05902969025047
         },
         "isLiked": false,
         "role": "NONE"
