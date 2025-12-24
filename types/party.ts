@@ -5,6 +5,13 @@ export type RouteType = 'ONE_WAY' | 'ROUND_TRIP';
 export type PartyRole = 'HOST' | 'GUEST' | 'NONE';
 export type HostRole = 'HOST' | 'PARTICIPANT';
 
+export type PartyMember = {
+  memberId: number;
+  nickname: string | null;
+  profileImage: number | null;
+  role: HostRole;
+};
+
 export type Place = {
   placeName: string;
   addressName: string;
@@ -27,12 +34,7 @@ export interface PartyItem {
   chatUrl: string | null;
   capacity: number;
   currentParticipants: number;
-  host: {
-    memberId: number;
-    nickname: string | null;
-    profileImage: number;
-    role: HostRole;
-  };
+  host: PartyMember;
   departure: Place;
   arrival: Place;
   isLiked: boolean;
