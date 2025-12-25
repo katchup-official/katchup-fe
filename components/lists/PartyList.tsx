@@ -72,7 +72,7 @@ export default function PartyList({
             <View className="flex-row items-center flex-1">
               <View className="w-[60px] h-[60px] rounded-full justify-center items-center mr-4">
                 <Image
-                  source={profileImages[item.host.profileImage]}
+                  source={profileImages[item.host.profileImage ?? 1]}
                   className="w-[55px] h-[55px]"
                   resizeMode="contain"
                 />

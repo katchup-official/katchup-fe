@@ -119,7 +119,7 @@ export default function PartyBottomSheet({
             <View className="flex-1">
               <View className="flex-row items-center mb-5">
                   <Image
-                    source={profileImages[party.host.profileImage] ?? profileImages[1]}
+                    source={profileImages[party.host.profileImage ?? 1] ?? profileImages[1]}
                     className="w-[76px] h-[76px] rounded-full ml-6 mr-8"
                     resizeMode="cover"
                   />

@@ -67,6 +67,7 @@ function RootLayoutNav() {
           <Stack.Screen name="login" options={{ animation: "fade" }}/>
           <Stack.Screen name="mainTabs" options={{ animation: "fade" }} />
           <Stack.Screen name="settings" options={{ animation: "slide_from_right" }} />
+          <Stack.Screen name="alarms" options={{ animation: "none" }} />
         </Stack>
     </QueryClientProvider>
   );

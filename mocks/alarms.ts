@@ -1,9 +1,10 @@
 import type { AlarmItem } from "@/types/alarm";
 
-export const events: AlarmItem[] = [
+export const alarms: AlarmItem[] = [
   {
     type: "HOST_REQUEST",
     partyId: 1,
+    routeType: "ROUND_TRIP",
     guest: {
       memberId: 12,
       nickname: "정상현",
@@ -29,6 +30,7 @@ export const events: AlarmItem[] = [
   {
     type: "GUEST_RESULT",
     partyId: 2,
+    routeType: "ROUND_TRIP",
     host: {
       memberId: 34,
       nickname: "쥬디무디",
@@ -55,6 +57,7 @@ export const events: AlarmItem[] = [
   {
     type: "MEMBER_REVIEW",
     partyId: 3,
+    routeType: "ONE_WAY",
     departure: {
       placeName: "동대문역사문화공원역",
       addressName: "서울 중구 을지로6가 18-177",
@@ -74,6 +77,7 @@ export const events: AlarmItem[] = [
   {
     type: "HOST_REQUEST",
     partyId: 4,
+    routeType: "ONE_WAY",
     guest: {
       memberId: 45,
       nickname: "김종인",
@@ -99,10 +103,11 @@ export const events: AlarmItem[] = [
   {
     type: "GUEST_RESULT",
     partyId: 5,
+    routeType: "ONE_WAY",
     host: {
       memberId: 8,
       nickname: "남우현",
-      profileImage: 5,
+      profileImage: 3,
       role: "HOST",
     },
     departure: {
@@ -125,6 +130,7 @@ export const events: AlarmItem[] = [
   {
     type: "MEMBER_REVIEW",
     partyId: 6,
+    routeType: "ROUND_TRIP",
     departure: {
       placeName: "동대문역사문화공원역",
       addressName: "서울 중구 을지로6가 18-177",
@@ -144,10 +150,11 @@ export const events: AlarmItem[] = [
   {
     type: "HOST_REQUEST",
     partyId: 7,
+    routeType: "ONE_WAY",
     guest: {
       memberId: 51,
       nickname: "김성규",
-      profileImage: 8,
+      profileImage: 2,
       role: "PARTICIPANT",
     },
     departure: {
@@ -169,10 +176,11 @@ export const events: AlarmItem[] = [
   {
     type: "GUEST_RESULT",
     partyId: 8,
+    routeType: "ONE_WAY",
     host: {
       memberId: 77,
       nickname: "김명수",
-      profileImage: 9,
+      profileImage: 1,
       role: "HOST",
     },
     departure: {
@@ -195,6 +203,7 @@ export const events: AlarmItem[] = [
   {
     type: "MEMBER_REVIEW",
     partyId: 9,
+    routeType: "ROUND_TRIP",
     departure: {
       placeName: "동대문역사문화공원역",
       addressName: "서울 중구 을지로6가 18-177",
@@ -214,10 +223,11 @@ export const events: AlarmItem[] = [
   {
     type: "HOST_REQUEST",
     partyId: 10,
+    routeType: "ONE_WAY",
     guest: {
       memberId: 63,
       nickname: "최민호",
-      profileImage: 11,
+      profileImage: 4,
       role: "PARTICIPANT",
     },
     departure: {

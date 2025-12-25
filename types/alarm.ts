@@ -1,8 +1,9 @@
-import { PartyMember, Place } from "./party";
+import { PartyMember, Place, RouteType } from "./party";
 export type PartyRequestResult = 'ACCEPTED' | 'REJECTED' | 'PENDING';
 
 export interface HostAlarmItem {
   partyId: number;
+  routeType: RouteType;
   guest: PartyMember;
   departure: Place;
   arrival: Place;
@@ -10,6 +11,7 @@ export interface HostAlarmItem {
 
 export interface GuestAlarmItem {
   partyId: number;
+  routeType: RouteType;
   host: PartyMember;
   departure: Place;
   arrival: Place;
@@ -18,6 +20,7 @@ export interface GuestAlarmItem {
 
 export interface MemberReviewAlarmItem {
   partyId: number;
+  routeType: RouteType;
   departure: Place;
   arrival: Place;
 }
