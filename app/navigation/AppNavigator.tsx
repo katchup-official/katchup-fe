@@ -5,10 +5,10 @@ import { colors } from "@/constants/colors";
 import type { RootTabParamList } from "./_types";
 
 import CreatePartyStack from "./CreatePartyStack";
-import PartyListScreen from "../party-list";
+import PartyListScreen from "../main-screens/party-list";
 import MainStack from "./MainStack";
-import LikedPartyListScreen from "../liked-party";
-import MyScreen from "../my";
+import LikedPartyListScreen from "../main-screens/liked-party";
+import MyScreen from "../main-screens/my";
 import AppHeader from "@/components/bars/AppHeader";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();

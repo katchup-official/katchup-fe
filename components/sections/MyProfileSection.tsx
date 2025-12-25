@@ -14,7 +14,7 @@ export default function MyProfileSection() {
           className="items-center justify-center ml-6"
         >
           <Image
-            source={profileImages[member.profileImage]}
+            source={profileImages[member.profileImage ?? 1]}
             className="w-[110px] h-[110px]"
             resizeMode="contain"
           />

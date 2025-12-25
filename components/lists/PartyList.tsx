@@ -72,7 +72,7 @@ export default function PartyList({
             <View className="flex-row items-center flex-1">
               <View className="w-[60px] h-[60px] rounded-full justify-center items-center mr-4">
                 <Image
-                  source={profileImages[item.host.profileImage]}
+                  source={profileImages[item.host.profileImage ?? 1]}
                   className="w-[55px] h-[55px]"
                   resizeMode="contain"
                 />
@@ -119,7 +119,7 @@ export default function PartyList({
                   style={[fonts.largeText, { color: colors.black }]}
                   className="mt-1"
                 >
-                  {truncateText(item.location.startLocation)} {arrow} {truncateText(item.location.placeName)}
+                  {truncateText(item.departure.placeName)} {arrow} {truncateText(item.arrival.placeName)}
                 </Text>
 
                 <View className="flex-row flex-wrap mt-3">

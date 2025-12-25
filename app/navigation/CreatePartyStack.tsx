@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ChooseEventScreen from "../create-e";
-import CreatePartyScreen from "../create-p";
+import ChooseEventScreen from "../main-screens/create-e";
+import CreatePartyScreen from "../main-screens/create-p";
 
 export type CreatePartyStackParamList = {
   ChooseEventScreen: undefined;

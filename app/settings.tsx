@@ -14,7 +14,7 @@ export default function SettingsScreen() {
   const handleLogout = () => {
     Alert.alert(
       "로그아웃",
-      "정말 로그아웃 하시겠어요?",
+      "로그아웃 하시겠습니까?",
       [
         { text: "취소", style: "cancel" },
         {
@@ -29,7 +29,7 @@ export default function SettingsScreen() {
                 { text: "확인", 
                   onPress: () => {
                     setIsProcessing(false);
-                    router.replace("/login");
+                    router.replace("/signup/login");
                   },
                 },
               ]);
@@ -47,7 +47,7 @@ export default function SettingsScreen() {
   const handleWithdrawal = () => {
     Alert.alert(
       "회원탈퇴",
-      "회원탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.\n정말 탈퇴하시겠어요?",
+      "회원탈퇴 시 정보를 복구할 수 없습니다.\n탈퇴하시겠습니까?",
       [
         { text: "취소", style: "cancel" },
         {
@@ -62,7 +62,7 @@ export default function SettingsScreen() {
                 { text: "확인",
                   onPress: () => {
                     setIsProcessing(false);
-                    router.replace("/login");
+                    router.replace("/signup/login");
                   },
                 },
               ]);

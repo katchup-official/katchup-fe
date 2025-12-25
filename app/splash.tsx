@@ -14,10 +14,10 @@ export default function SplashScreen() {
     const prepareApp = async () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 2000));
-        router.replace("/login");
+        router.replace("/signup/login");
       } catch (e) {
         console.error(e);
-        router.replace("/login");
+        router.replace("/signup/login");
       }
     };
     prepareApp();

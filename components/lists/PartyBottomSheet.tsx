@@ -81,13 +81,12 @@ export default function PartyBottomSheet({
     formatGender(party.gender),
   ];
 
-  const isHost = party.host.memberId === member.memberId;
-  const isParticipant = party.isParticipant;
+  const isHost = party.role === "HOST";
+  const isParticipant = party.role === "GUEST";
+  const isJoined = party.role !== "NONE";
 
   const canViewChatLink =
-    party.status === "RECRUIT_COMPLETED" &&
-    (isHost || isParticipant) &&
-    !!party.chatUrl;
+    party.status === "RECRUIT_COMPLETED" && isJoined && !!party.chatUrl;
 
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
@@ -120,7 +119,7 @@ export default function PartyBottomSheet({
             <View className="flex-1">
               <View className="flex-row items-center mb-5">
                   <Image
-                    source={profileImages[party.host.profileImage] ?? profileImages[1]}
+                    source={profileImages[party.host.profileImage ?? 1] ?? profileImages[1]}
                     className="w-[76px] h-[76px] rounded-full ml-6 mr-8"
                     resizeMode="cover"
                   />
@@ -156,7 +155,7 @@ export default function PartyBottomSheet({
               />
 
               <Text className="mb-3 text-center" style={[fonts.smallTitle, { color: colors.black, fontSize: 24 }]}>
-                {party.location.startLocation} {arrow} {party.location.placeName}
+                {party.departure.placeName} {arrow} {party.arrival.placeName}
               </Text>
 
               <View className="border rounded-xl px-4 py-3 mb-4" style={{ borderColor: colors.orange }}>
