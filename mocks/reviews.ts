@@ -8,19 +8,19 @@ export const reviews: ReviewMemberItem[] = [
 	    "memberId": 1,
 	    "nickname": "민주",
 	    "profileImage": 2,
-	    "role": "HOST",
+	    "isFeedbackGiven": true
 	  },
 	  {
 	    "memberId": 2,
 	    "nickname": "채채",
 	    "profileImage": 3,
-	    "role": "PARTICIPANT"
+	    "isFeedbackGiven": false
 	  },
 	  {
 	    "memberId": 3,
 	    "nickname": "주주",
 	    "profileImage": 4,
-	    "role": "PARTICIPANT"
+	    "isFeedbackGiven": true
 	  },
     ]
   }

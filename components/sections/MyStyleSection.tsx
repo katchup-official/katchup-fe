@@ -9,6 +9,8 @@ import { member } from "@/mocks/member";
 export default function MyStyleSection() {
   const { style } = member;
 
+  if (!style) return null;
+
   return (
     <View
       className="mx-6 mt-10 p-5 rounded-2xl"

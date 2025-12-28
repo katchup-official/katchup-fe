@@ -8,6 +8,7 @@ import { formatDate, formatTime } from "@/utils/dateTime";
 import { profileImages } from "@/utils/profileImgMapper";
 import PartyBottomSheetButton from "@/components/buttons/PartyBottomSheetButton";
 import PartyChatLinkButton from "@/components/buttons/PartyChatLinkButton";
+import ReviewMemberListButton from "../buttons/ReviewMemberListButton";
 
 import { member } from "@/mocks/member";
 
@@ -87,6 +88,8 @@ export default function PartyBottomSheet({
 
   const canViewChatLink =
     party.status === "RECRUIT_COMPLETED" && isJoined && !!party.chatUrl;
+
+  const canShowReviewButton = party.status === "COMPLETED";
 
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
@@ -184,7 +187,14 @@ export default function PartyBottomSheet({
                 chatUrl={party.chatUrl!}
               />
             )}
-            
+
+            {canShowReviewButton && (
+              <ReviewMemberListButton 
+                partyId={party.partyId}
+                onClose={onClose}
+              />
+            )}
+
             <PartyBottomSheetButton
               party={party}
               memberId={member.memberId}
