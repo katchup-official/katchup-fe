@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import type { AlarmItem } from "@/types/alarm";
-import { colors } from "@/constants/colors";
+import { colors, reviewColors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 import { formatRoute } from "@/utils/formatParty";
 import { profileImages } from "@/utils/profileImgMapper";
@@ -11,7 +12,6 @@ type Props = {
   item: AlarmItem;
   onAccept?: (partyId: number) => void;
   onReject?: (partyId: number) => void;
-  onReview?: (partyId: number) => void;
 };
 
 function BadgeButton({
@@ -23,7 +23,7 @@ function BadgeButton({
   variant: "accept" | "reject"
   onPress?: () => void;
 }) {
-  const bg = variant === "accept" ? colors.orange : "#3B2F2A";
+  const bg = variant === "accept" ? colors.orange : colors.darkGray;
   return (
     <TouchableOpacity
       activeOpacity={0.85}
@@ -36,7 +36,8 @@ function BadgeButton({
   );
 }
 
-export default function AlarmCard({ item, onAccept, onReject, onReview }: Props) {
+export default function AlarmCard({ item, onAccept, onReject }: Props) {
+  const router = useRouter();
   const { arrow } = formatRoute(item.routeType);
   const title = `${item.departure.placeName} ${arrow} ${item.arrival.placeName}`;
 
@@ -47,7 +48,10 @@ export default function AlarmCard({ item, onAccept, onReject, onReview }: Props)
       const nickname = item.guest.nickname ?? "익명";
 
       return (
-        <View className="bg-[#F6F6F6] rounded-2xl px-5 py-4 flex-row items-center">
+        <View 
+          className="rounded-2xl px-5 py-4 flex-row items-center"
+          style={{ backgroundColor: colors.lightGray }}
+        >
           <View className="w-[72px] h-[72px] rounded-full items-center justify-center mr-4">
             <Image source={profile} className="w-[56px] h-[56px] rounded-full" />
           </View>
@@ -85,7 +89,10 @@ export default function AlarmCard({ item, onAccept, onReject, onReview }: Props)
           : "님의 참여요청이 처리 대기중입니다.";
 
       return (
-        <View className="bg-[#F6F6F6] rounded-2xl px-5 py-4 flex-row items-center">
+        <View 
+          className="rounded-2xl px-5 py-4 flex-row items-center"
+          style={{ backgroundColor: colors.lightGray }}
+        >
           <View className="w-[72px] h-[72px] rounded-full items-center justify-center mr-4">
             <Image source={profile} className="w-[56px] h-[56px] rounded-full" />
           </View>
@@ -107,14 +114,23 @@ export default function AlarmCard({ item, onAccept, onReject, onReview }: Props)
     case "MEMBER_REVIEW": {
 
       return (
-        <View className="rounded-2xl px-5 py-4 flex-row items-center" style={{ backgroundColor: "#EAF6FF" }}>
+        <TouchableOpacity 
+          className="rounded-2xl px-5 py-4 flex-row items-center" 
+          style={{ backgroundColor: reviewColors.cardBg }}
+          activeOpacity={0.9}
+          onPress={() => {
+            router.push({
+              pathname: "/review/member-list",
+              params: { partyId: item.partyId },
+            });
+        }}>
           <View
             className="w-[72px] h-[72px] items-center justify-center mr-4"
             style={{ borderRadius: 9999 }}
           >
             <View
               className="w-[56px] h-[56px] items-center justify-center"
-              style={{ backgroundColor: "#7C88D6", borderRadius: 9999 }}
+              style={{ backgroundColor: reviewColors.primary, borderRadius: 9999 }}
             >
             <Ionicons name="happy" size={40} color={colors.white} />
           </View>
@@ -127,12 +143,12 @@ export default function AlarmCard({ item, onAccept, onReject, onReview }: Props)
 
             <Text style={[fonts.smallText, { color: colors.black, marginTop: 6 }]} numberOfLines={2}>
               파티에 잘 다녀오셨나요?{"\n"}
-              <Text style={[fonts.smallText, { color: "#7C88D6" }]}>
+              <Text style={[fonts.smallText, { color: reviewColors.primary }]}>
                 파티원들에 대한 평가를 진행해주세요:)
               </Text>
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
     }
     default:

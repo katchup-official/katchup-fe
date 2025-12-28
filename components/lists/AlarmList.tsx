@@ -7,14 +7,12 @@ type AlarmListProps = {
   data: AlarmItem[];
   onAccept?: (partyId: number) => void;
   onReject?: (partyId: number) => void;
-  onReview?: (partyId: number) => void;
 };
 
 export default function AlarmList({
   data,
   onAccept,
   onReject,
-  onReview,
 }: AlarmListProps) {
   return (
     <View className="flex-1 px-5">
@@ -29,7 +27,6 @@ export default function AlarmList({
             item={item}
             onAccept={onAccept}
             onReject={onReject}
-            onReview={onReview}
           />
         )}
       />

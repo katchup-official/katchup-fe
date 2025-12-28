@@ -21,7 +21,7 @@ type TagProps = {
 const Tag = ({ label, isSelected }: TagProps) => (
   <View
     className="px-3 py-1 rounded-lg mr-2 mb-2"
-    style={{ backgroundColor: isSelected ? "#FFFFFF" : "#E9E9E9" }}
+    style={{ backgroundColor: isSelected ? colors.white : colors.mediumGray }}
   >
     <Text className="text-[11px] font-[Paperlogy-Regular]" style={{ color: colors.black }}>
       {label}
@@ -31,7 +31,7 @@ const Tag = ({ label, isSelected }: TagProps) => (
 
 type Props = {
   item: PartyItem;
-  onToggleLike: (partyId: number) => void;
+  onToggleLike?: (partyId: number) => void;
   selectable?: boolean;
   isSelected?: boolean;
   onSelect?: (party: PartyItem) => void;
@@ -41,13 +41,19 @@ export default function PartyCard({ item, onToggleLike, onSelect, selectable = f
   const { label, color } = formatPartyStatus(item.status);
   const { label: routeLabel, arrow } = formatRoute(item.routeType);
 
+  const isPressable = !!onSelect;
   const selected = selectable && isSelected;
+  const showHeart = selectable && !!onToggleLike;
 
   return (
-    <TouchableOpacity onPress={() => onSelect?.(item)} activeOpacity={0.9}>
+    <TouchableOpacity 
+      onPress={() => onSelect?.(item)} 
+      activeOpacity={isPressable ? 0.9 : 1}
+      disabled={!isPressable}
+    >
       <View
         className="flex-row items-center justify-between px-5 py-5 mb-4 rounded-2xl"
-        style={{ backgroundColor: selected ? "#FFEDE9" : "#FAF9F7" }}
+        style={{ backgroundColor: selected ? colors.bgOrange : colors.lightGray }}
       >
         <View className="flex-row items-center flex-1">
           <View className="w-[60px] h-[60px] rounded-full justify-center items-center mr-4">
@@ -102,16 +108,18 @@ export default function PartyCard({ item, onToggleLike, onSelect, selectable = f
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={(e) => {
-            e.stopPropagation?.();
-            onToggleLike(item.partyId);
-          }}
-          className="ml-3"
-          activeOpacity={0.9}
-        >
-          <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={28} color={colors.orange} />
-        </TouchableOpacity>
+        {showHeart && (
+          <TouchableOpacity
+            onPress={(e) => {
+              e.stopPropagation?.();
+              onToggleLike?.(item.partyId);
+            }}
+            className="ml-3"
+            activeOpacity={0.9}
+          >
+            <Ionicons name={item.isLiked ? "heart" : "heart-outline"} size={28} color={colors.orange} />
+          </TouchableOpacity>
+        )}
       </View>
     </TouchableOpacity>
   );
