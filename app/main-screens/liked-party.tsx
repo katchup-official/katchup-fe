@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TouchableOpacity, ScrollView } from "react-native";
 import PartyList from "@/components/lists/PartyList";
-import PartyBottomSheet from "@/components/lists/PartyBottomSheet";
+import PartyBottomSheet from "@/components/sections/PartyBottomSheet";
 
 import type { PartyItem } from "@/types/party";
 import { parties } from "@/mocks/parties";
