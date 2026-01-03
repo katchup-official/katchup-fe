@@ -12,10 +12,9 @@ interface EventSearchBarProps {
 export default function EventSearchBar({ onSearch, placeholderText } : EventSearchBarProps) {
     const [query, setQuery] = React.useState("");
 
-    //추후 API 연동 시 수정
     const handleSearch = () => {
-        console.log("검색!", query);
-        onSearch?.(query);
+        const keyword = query.trim();
+        onSearch?.(keyword);
         Keyboard.dismiss();
     };
 
@@ -34,6 +33,8 @@ export default function EventSearchBar({ onSearch, placeholderText } : EventSear
                 placeholderTextColor={colors.gray}
                 returnKeyType="search"
                 blurOnSubmit={false}
+                value={query}
+                onChangeText={setQuery}
                 onSubmitEditing={handleSearch}
             />
             <TouchableOpacity onPress={handleSearch}>

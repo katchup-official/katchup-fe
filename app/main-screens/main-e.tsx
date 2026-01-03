@@ -1,34 +1,38 @@
 import React, { useState } from "react";
-import { View,ScrollView } from "react-native";
+import { View } from "react-native";
 import EventSearchBar from "@/components/bars/EventSearchBar";
 import EventList from "@/components/lists/EventList";
+import LoadingOverlay from "@/components/loadings/LoadingOverlay";
 
 export default function MainEventScreen(){
     const [searchEvent, setSearchEvent] = useState("");
     const [isSearched, setIsSearched] = useState(false);
-    const [countEventNum, setCountEventNum] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSearchConfirm = (query: string) => {
-        setSearchEvent(query);
-        setIsSearched(true);
-        setCountEventNum(10);
+        const keyword = query.trim();
+
+        if (!keyword) {
+            setIsSearched(false);
+            setSearchEvent("");
+            return;
+        }
+        setSearchEvent(keyword);
+        setIsSearched(keyword.length > 0);
     }
 
     return (
         <View className="flex-1 bg-white">
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ flexGrow: 1, paddingBottom: 0 }}>
-                <EventSearchBar 
-                    onSearch={handleSearchConfirm}
-                    placeholderText="가고 싶은 행사를 입력해주세요." />
-                <EventList 
-                    searchEvent={searchEvent}
-                    countEventNum={countEventNum}
-                    isSearched={isSearched}
-                    isAllEventMode={false}
-                />
-        </ScrollView>
+            <EventSearchBar 
+                onSearch={handleSearchConfirm}
+                placeholderText="가고 싶은 행사를 입력해주세요." />
+            <EventList 
+                searchEvent={searchEvent}
+                isSearched={isSearched}
+                isAllEventMode={false}
+                onLoadingChange={setLoading}
+            />
+            <LoadingOverlay visible={loading} />
         </View>
     );
 }
