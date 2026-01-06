@@ -32,6 +32,7 @@ export default function LocationSection({
         <View style={[inputBoxStyle, { backgroundColor: "#fff", flex: 1 }]}>
           <TextInput
             value={departure}
+            editable={false}
             onChangeText={onChangeDeparture}
             placeholder="출발지 주소를 입력하세요"
             placeholderTextColor={colors.gray}
