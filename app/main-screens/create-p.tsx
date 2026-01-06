@@ -4,7 +4,7 @@
   import type { RouteProp } from "@react-navigation/native";
   import PartyHeader from "@/components/bars/PartyHeader";
   import type { CreatePartyStackParamList } from "@/app/navigation/CreatePartyStack";
-  import CreateParty from "@/components/inputs/CreateParty";
+  import CreatePartyInput from "@/components/inputs/CreatePartyInput";
   import CommonToast from "@/components/toasts/CommonToast";
 
   type CreatePartyScreenRouteProp = RouteProp<
@@ -58,7 +58,7 @@
               endDate={endDate}
               showListTitle={false}
             />
-            <CreateParty
+            <CreatePartyInput
               eventId={eventId}
               facilityName={facilityName}
               startDate={startDate}

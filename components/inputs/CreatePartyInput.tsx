@@ -17,7 +17,7 @@ import EtcSection from "./create-party/EtcSection";
 import CreatePartyButton from "../buttons/CreatePartyButton";
 import KakaoPlaceSearchModal from "../modals/KakaoPlaceSearchModal";
 
-interface CreatePartyProps {
+interface CreatePartyInputProps {
   eventId: string;
   facilityName: string;
   startDate: string;
@@ -26,14 +26,14 @@ interface CreatePartyProps {
   onEtcFocus?: () => void; 
 }
 
-export default function CreateParty({
+export default function CreatePartyInput({
   eventId,
   facilityName,
   startDate,
   endDate,
   onCreateSuccess,
   onEtcFocus,
-}: CreatePartyProps) {
+}: CreatePartyInputProps) {
   
   const [partyDate, setPartyDate] = useState(startDate);
 
