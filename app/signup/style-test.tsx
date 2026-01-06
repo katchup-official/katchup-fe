@@ -50,7 +50,7 @@ export default function StyleTestScreen() {
 
     async function onSubmit() {
         if (!canSubmit) return;
-        router.push("/signup/greeting"); 
+        router.push("/signup/my-location"); 
     }
 
     const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -100,8 +100,8 @@ export default function StyleTestScreen() {
                     onContentSizeChange={handleContentSizeChange}
                 >
                     <SignupBar 
-                        progressWidth="w-1/2"
-                        showBack={true}
+                        currentStep={2}
+                        showBack
                         onBack={() => router.back()}
                     />
                     <SignupTitle 

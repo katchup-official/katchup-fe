@@ -55,7 +55,7 @@ export default function NicknameScreen() {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View className="flex-1">
-                        <SignupBar progressWidth="w-1/2" />
+                        <SignupBar currentStep={1} />
                         <SignupTitle mainText="Hi, There" subText="닉네임을 입력해주세요" showIcon={true} />
                         <SignupInput
                             value={nickname}
