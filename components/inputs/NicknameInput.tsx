@@ -2,7 +2,7 @@ import { View, Text, TextInput } from "react-native";
 import { fonts } from "../../constants/fonts";
 import { colors } from "../../constants/colors";
 
-type SignupInputProps = {
+type NicknameInputProps = {
   value: string;
   onChangeText: (text: string) => void;
   onEndEditing?: () => void;
@@ -12,7 +12,7 @@ type SignupInputProps = {
   maxLength?: number;
 };
 
-export default function SignupInput({
+export default function NicknameInput({
   value,
   onChangeText,
   onEndEditing,
@@ -20,7 +20,7 @@ export default function SignupInput({
   errorMessage,
   successMessage,
   maxLength = 50,
-}: SignupInputProps) {
+}: NicknameInputProps) {
   const hasError = !!errorMessage;
   const hasSuccess = !!successMessage && !hasError;
 

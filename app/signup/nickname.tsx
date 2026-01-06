@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 
 import SignupTitle from "@/components/titles/SignupTitle";
 import SignupBar from "@/components/bars/SignupBar";
-import SignupInput from "@/components/inputs/SignupInput";
+import NicknameInput from "@/components/inputs/NicknameInput";
 import SignupButton from "@/components/buttons/SignupButton";
 
 export default function NicknameScreen() {
@@ -57,7 +57,7 @@ export default function NicknameScreen() {
                     <View className="flex-1">
                         <SignupBar currentStep={1} />
                         <SignupTitle mainText="Hi, There" subText="닉네임을 입력해주세요" showIcon={true} />
-                        <SignupInput
+                        <NicknameInput
                             value={nickname}
                             onChangeText={onChangeText}
                             onEndEditing={onEndEditing}
