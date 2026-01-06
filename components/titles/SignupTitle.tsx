@@ -22,7 +22,7 @@ export default function SignupTitle({
 }: SignupTitleProps) {
   return (
     <>
-      <View className="px-6 flex-row items-center ml-5 mt-12">
+      <View className="px-6 flex-row items-center ml-5 mt-8">
         <Text
           style={[fonts.extraLargeTitle, { color: colors.orange }]}
           className="mr-2"

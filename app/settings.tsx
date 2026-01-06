@@ -25,7 +25,7 @@ export default function SettingsScreen() {
             setIsProcessing(true);
             try {
               await memberLogout();
-              Alert.alert("완료", "로그아웃 되었습니다!", [
+              Alert.alert("로그아웃 완료", "로그아웃 되었습니다!", [
                 { text: "확인", 
                   onPress: () => {
                     setIsProcessing(false);
@@ -58,7 +58,7 @@ export default function SettingsScreen() {
             setIsProcessing(true);
             try {
               await memberWithdrawal();
-              Alert.alert("완료", "회원탈퇴 되었습니다!", [
+              Alert.alert("회원탈퇴 완료", "회원탈퇴 되었습니다!", [
                 { text: "확인",
                   onPress: () => {
                     setIsProcessing(false);
