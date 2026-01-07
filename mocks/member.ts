@@ -13,7 +13,7 @@ export const member: Member = {
     immerseScore: 90,
     frontScore: 60,
     backScore: 40,
-    iscore: 80,
-    escore: 50,
+    iScore: 80,
+    eScore: 50,
   },
 }
