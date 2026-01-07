@@ -18,7 +18,7 @@ import CreatePartyButton from "../buttons/CreatePartyButton";
 import KakaoPlaceSearchModal from "../modals/KakaoPlaceSearchModal";
 
 interface CreatePartyInputProps {
-  eventId: string;
+  eventId: number;
   facilityName: string;
   startDate: string;
   endDate: string;
