@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": " ",
+    "name": "Katchup",
     "slug": "katchup-fe",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.judy59.katchupfe",
+      "bundleIdentifier": "com.katchup.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSAppTransportSecurity": {
@@ -19,7 +19,7 @@
     },
     "android": {
       "edgeToEdgeEnabled": true,
-      "package": "com.judy59.katchupfe"
+      "package": "com.katchup.app"
     },
     "web": {
       "bundler": "metro",

@@ -2,16 +2,12 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { fonts } from "@/constants/fonts";
 import { colors } from "@/constants/colors"
 
-type Question = {
-  id: number;
-  question: string;
-  options: string[];
-};
+import type { UIQuestion } from "@/types/styles";
 
 type StyleQuestionListProps = {
-  questions: Question[];
-  answers: { [key: number]: number | null };
-  onSelect: (questionId: number, optionIdx: number) => void;
+  questions: UIQuestion[];
+  answers: Record<number, number>; 
+  onSelect: (questionId: number, answerId: number) => void;
 };
 
 export default function StyleQuestionList({
@@ -28,7 +24,8 @@ export default function StyleQuestionList({
           </Text>
 
           {q.options.map((opt, idx) => {
-            const selected = answers[q.id] === idx;
+            const answerId = q.answerIds[idx];
+            const selected = answers[q.id] === answerId;
             return (
               <TouchableOpacity
                 key={idx}
@@ -38,7 +35,7 @@ export default function StyleQuestionList({
                   borderColor: selected ? colors.lightOrange : colors.gray,
                   borderWidth: 1,
                 }}
-                onPress={() => onSelect(q.id, idx)}
+                onPress={() => onSelect(q.id, answerId)}
               >
                 <Text
                   style={[

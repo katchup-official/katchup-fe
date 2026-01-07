@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { View, KeyboardAvoidingView, Platform,
     TouchableWithoutFeedback, Keyboard, SafeAreaView,
  } from "react-native";
@@ -9,42 +9,84 @@ import SignupBar from "@/components/bars/SignupBar";
 import NicknameInput from "@/components/inputs/NicknameInput";
 import SignupButton from "@/components/buttons/SignupButton";
 
+import { checkNicknameTaken } from "@/apis/onboardingApi";
+import { useOnboardingStore } from "@/stores/useOnboardingStore";
+
+type NicknameError = "ALREADY_USED" | "ERROR" | null;
+
 export default function NicknameScreen() {
     const router = useRouter();
 
     const [nickname,setNickname] = useState("");
     const [isChecking, setIsChecking] = useState(false);
-    const [dupError, setDupError] = useState<string | null>(null);
+    const [nicknameError, setNicknameError] = useState<NicknameError>(null);
+    const [isVerified, setIsVerified] = useState(false);
 
     // 닉네임 정규식(1-8자, 공백 불가, 한글/영어/숫자/특수문자 허용)
     const nicknameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9!@#$%^&*(),.?":{}|<>_\-]{1,8}$/;
 
     const isLengthValid = nicknameRegex.test(nickname);
 
+    //닉네임 중복확인
     async function verifyNickname(name: string) {
-        //닉네임 중복확인
-    }
+        if (!nicknameRegex.test(name)) return;
 
-    function onChangeText(text: string) {
-        // 8글자 제한
-        const next = text.slice(0, 8);
-        setNickname(next);
-        setDupError(null);
-    }
+        setIsChecking(true);
+        try {
+            const isTaken = await checkNicknameTaken(name);
 
-    function onEndEditing() {
-        if (isLengthValid) {
-        verifyNickname(nickname);
+            if (name !== nickname) return;
+
+            setNicknameError(isTaken ? "ALREADY_USED" : null);
+            setIsVerified(!isTaken);
+        } catch (e) {
+            setNicknameError("ERROR");
+            setIsVerified(false);
+        } finally {
+            if (name === nickname) setIsChecking(false);
         }
     }
 
-    const canSubmit = useMemo(() => {
-        return isLengthValid && !dupError && !isChecking;
-    }, [isLengthValid, dupError, isChecking]);
+    function onChangeText(text: string) {
+        const next = text.slice(0, 8);
+        setNickname(next);
+        setNicknameError(null);
+        setIsVerified(false);
+    }
 
-    async function onSubmit() {
-        if (!canSubmit) return;
-        router.push("/signup/style-test"); 
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+            debounceRef.current = null;
+    }
+        if (!nickname) return;
+        if (!isLengthValid) return;
+
+        debounceRef.current = setTimeout(() => {
+            verifyNickname(nickname);
+        }, 500);
+
+        return () => {
+            if (debounceRef.current) {
+                clearTimeout(debounceRef.current);
+                debounceRef.current = null;
+            }
+        };
+    }, [nickname, isLengthValid]);
+
+    const setStoreNickname = useOnboardingStore((s) => s.setNickname);
+
+    const canProceed = useMemo(() => {
+        return isLengthValid && isVerified && !nicknameError && !isChecking;
+    }, [isLengthValid, isVerified, nicknameError, isChecking]);
+
+    function handleNext() {
+        if (!canProceed) return;
+
+        setStoreNickname(nickname);
+        router.push("/signup/style-test");
     }
 
     return (
@@ -60,26 +102,25 @@ export default function NicknameScreen() {
                         <NicknameInput
                             value={nickname}
                             onChangeText={onChangeText}
-                            onEndEditing={onEndEditing}
                             placeholder="한글/영어/숫자/특수문자 조합 최대 8글자"
                             maxLength={8}
                             errorMessage={
-                                dupError
+                                nicknameError === "ALREADY_USED"
                                 ? "* 이미 사용 중인 닉네임입니다."
-                                : !isLengthValid && nickname.length > 0
-                                ? "* 닉네임은 1~8 글자로 입력해주세요."
+                                : nicknameError === "ERROR"
+                                ? "* 닉네임 확인에 실패했어요. 잠시 후 다시 시도해주세요."
                                 : null
                             }
                             successMessage={
-                                isLengthValid && !dupError && nickname.length > 0
+                                isVerified && isLengthValid && !nicknameError && nickname.length > 0
                                 ? "* 사용 가능한 닉네임입니다."
                                 : null
                             }
                             />
                         <SignupButton
                             label="다음"
-                            onPress={onSubmit}
-                            disabled={!canSubmit}
+                            onPress={handleNext}
+                            disabled={!canProceed}
                         />
                     </View>
                 </TouchableWithoutFeedback>
