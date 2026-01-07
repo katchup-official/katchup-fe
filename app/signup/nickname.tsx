@@ -10,7 +10,7 @@ import NicknameInput from "@/components/inputs/NicknameInput";
 import SignupButton from "@/components/buttons/SignupButton";
 
 import { checkNicknameTaken } from "@/apis/onboardingApi";
-import { useOnboardingStore } from "@/stores/onBoardingStore";
+import { useOnboardingStore } from "@/stores/useOnboardingStore";
 
 type NicknameError = "ALREADY_USED" | "ERROR" | null;
 
