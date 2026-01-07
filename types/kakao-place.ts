@@ -9,3 +9,11 @@ export type KakaoPlace = {
   categoryName: string;
   phone: string;
 };
+
+export type MyLocation = {
+  placeName: string;
+  addressName: string;
+  roadAddressName: string;
+  latitude: string;
+  longitude: string;
+};

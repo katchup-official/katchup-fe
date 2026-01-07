@@ -1,5 +1,5 @@
 import axiosWithAuthorization from "@/apis/auth/axiosWithAuthorization";
-import type { StylesQuestionList } from "@/types/styles";
+import type { StylesQuestionList, StylesAnswer } from "@/types/styles";
 
 export async function checkNicknameTaken(nickname: string): Promise<boolean> {
   const res = await axiosWithAuthorization.get("/members/nickname/check", {
@@ -8,6 +8,10 @@ export async function checkNicknameTaken(nickname: string): Promise<boolean> {
   });
 
   return res.data.data;
+}
+
+export async function addNickname(body: { nickname: string }): Promise<void> {
+  return axiosWithAuthorization.post("/members/nickname", body);
 }
 
 export type StylesQuestionsResponse = {
@@ -38,4 +42,8 @@ export async function getStylesQuestionList(
   );
 
   return res.data.data;
+}
+
+export async function addStylesAnswers(body: StylesAnswer): Promise<void> {
+  return axiosWithAuthorization.post("/styles/update", body);
 }
