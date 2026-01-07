@@ -28,6 +28,7 @@ export default function EventList({
 
   const navigation = useNavigation<NavigationProp<RootTabParamList>>();
   const [eventList, setEventList] = React.useState<EventItem[]>([]);
+  const [totalCount, setTotalCount] = React.useState<number>(0);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFetchingMore, setIsFetchingMore] = React.useState(false);
 
@@ -62,9 +63,10 @@ export default function EventList({
 
         if (!mounted) return;
 
-        const content = data.content ?? [];
+        const { content = [], last } = data.events;
         setEventList(content);
-        setHasMore(!data.last);
+        setHasMore(!last);
+        setTotalCount(data.totalCount);
 
         if (content.length > 0) {
           const nextCursor = content[content.length - 1].id;
@@ -103,15 +105,14 @@ export default function EventList({
         ? await searchEventList({ eventName: keyword, lastEventId: cursor })
         : await getEventList({ lastEventId: cursor });
 
-      const content = data.content ?? [];
+      const content = data.events.content ?? [];
 
       setEventList((prev) => {
         const prevIds = new Set(prev.map((v) => v.id));
-        const merged = [...prev, ...content.filter((v) => !prevIds.has(v.id))];
-        return merged;
+        return [...prev, ...content.filter((v) => !prevIds.has(v.id))];
       });
 
-      setHasMore(!data.last);
+      setHasMore(!data.events.last);
 
       if (content.length > 0) {
         const nextCursor = content[content.length - 1].id;
@@ -127,7 +128,7 @@ export default function EventList({
   const title = isAllEventMode
     ? "모든 행사 보기"
     : isSearched
-    ? `검색 결과 (${eventList.length})`
+    ? `검색 결과 (${totalCount})`
     : "실시간 인기 있는 행사";
 
   const shouldShowEmpty = isSearched && !isLoading && eventList.length === 0;
@@ -143,7 +144,7 @@ export default function EventList({
         if (isAllEventMode) return;
 
         const payload = {
-          eventId: item.eventId,
+          eventId: item.id,
           eventName: item.eventName,
           facilityName: item.facilityName,
           startDate: item.startDate,
