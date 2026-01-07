@@ -27,10 +27,15 @@ export type ApiResponse<T> = {
   timestamp: string;
 };
 
+export type EventsData = {
+  events: SliceResponse<EventItem>;
+  totalCount: number;
+};
+
 export async function getEventList(params: GetEventsParams = {}) {
   const { lastEventId, size = EVENTS_SLICE_SIZE } = params;
 
-  const res = await axiosWithAuthorization.get<ApiResponse<SliceResponse<EventItem>>>(
+  const res = await axiosWithAuthorization.get<ApiResponse<EventsData>>(
     "/events",
     {
       params: {
@@ -52,7 +57,7 @@ export type SearchEventsParams = {
 export async function searchEventList(params: SearchEventsParams) {
   const { eventName, lastEventId, size = EVENTS_SLICE_SIZE } = params;
 
-  const res = await axiosWithAuthorization.get<ApiResponse<SliceResponse<EventItem>>>(
+  const res = await axiosWithAuthorization.get<ApiResponse<EventsData>>(
     "/events/search",
     {
       params: {

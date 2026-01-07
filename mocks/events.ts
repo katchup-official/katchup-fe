@@ -3,7 +3,6 @@ import type { EventItem } from "@/types/event";
 export const events: EventItem[] = [
   {
     id: 3306,
-    eventId: "PF123456",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-08-01",
     endDate: "2025-08-05",
@@ -15,7 +14,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3307,
-    eventId: "PF987654",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-09-15",
     endDate: "2025-10-30",
@@ -27,7 +25,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3308,
-    eventId: "PF654321",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-11-01",
     endDate: "2025-12-15",
@@ -39,7 +36,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3309,
-    eventId: "PF123406",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-08-01",
     endDate: "2025-09-07",
@@ -51,7 +47,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3310,
-    eventId: "PF980654",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-09-15",
     endDate: "2025-10-30",
@@ -63,7 +58,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3311,
-    eventId: "PF650321",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-11-01",
     endDate: "2025-12-15",
@@ -75,7 +69,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3312,
-    eventId: "PF193456",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-08-01",
     endDate: "2025-09-07",
@@ -87,7 +80,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3313,
-    eventId: "PF987694",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-09-15",
     endDate: "2025-10-30",
@@ -99,7 +91,6 @@ export const events: EventItem[] = [
   },
   {
     id: 3314,
-    eventId: "PF654921",
     eventName: "BLACKPINK WORLD TOUR [BORN PINK] FINALE IN SEOUL",
     startDate: "2025-11-01",
     endDate: "2025-12-15",
