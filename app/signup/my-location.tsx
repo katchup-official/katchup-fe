@@ -3,7 +3,7 @@ import { View, KeyboardAvoidingView, Platform, SafeAreaView,
     TouchableWithoutFeedback, Keyboard, Alert
  } from "react-native";
 import { useRouter } from "expo-router";
-import type { KakaoPlace } from "@/types/kakao-place";
+import type { KakaoPlace } from "@/types/place";
 
 import SignupTitle from "@/components/titles/SignupTitle";
 import SignupBar from "@/components/bars/SignupBar";

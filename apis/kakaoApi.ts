@@ -1,4 +1,4 @@
-import type { KakaoPlace } from "@/types/kakao-place";
+import type { KakaoPlace } from "@/types/place";
 
 const KAKAO_REST_API_KEY = (process.env.EXPO_PUBLIC_KAKAO_REST_API_KEY ?? "").trim();
 

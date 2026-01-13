@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import type { MyLocation } from "@/types/kakao-place";
+import type { MyLocation } from "@/types/place";
 
 type MyLocationState = {
   myLocation: MyLocation | null;
