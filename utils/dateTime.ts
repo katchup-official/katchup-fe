@@ -40,7 +40,9 @@ export const getDateRange = (start: string, end: string) => {
 };
 
 export const toKSTIsoString = (date: string, time: string) => {
-  if (!date || !time) return null;
+  if (!date || !time) {
+    throw new Error("toKSTIsoString: date/time is required");
+  }
 
   const [hour, minute] = time.split(":").map(Number);
 

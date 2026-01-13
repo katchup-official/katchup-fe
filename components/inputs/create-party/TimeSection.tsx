@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
-import type { RouteType } from "@/types/party";
+import type { PartyType, RouteType } from "@/types/party";
 import { inputBoxStyle } from "@/styles/inputBox";
 import ShortToast from "@/components/toasts/ShortToast";
 
 type TimeSectionProps = {
+  partyType: PartyType;
   routeType: RouteType;
   startAt: string;
   returnAt: string;
@@ -15,12 +16,15 @@ type TimeSectionProps = {
 };
 
 export default function TimeSection({
+  partyType,
   routeType,
   startAt,
   returnAt,
   onChangeStartAt,
   onChangeReturnAt,
 }: TimeSectionProps) {
+  const isSingleTime = routeType === "ONE_WAY" || partyType === "SCHEDULE_ONLY";
+
   const [toastMsg, setToastMsg] = useState("");
 
   const showToast = (msg: string) => {
@@ -85,7 +89,7 @@ export default function TimeSection({
   return (
     <>
       <View>
-        {routeType === "ONE_WAY" ? (
+        {isSingleTime ? (
           <View style={[inputBoxStyle, { backgroundColor: "#fff" }]}>
             <TextInput
               value={startAt}

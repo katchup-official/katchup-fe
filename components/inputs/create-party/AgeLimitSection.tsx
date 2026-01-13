@@ -125,7 +125,7 @@ export default function AgeLimitSection({
               onEndEditing={() =>
                 validateYear(maxBirthYear, onChangeMaxBirthYear, "max")
               }
-              placeholder="예) 2002"
+              placeholder="예) 1995"
               placeholderTextColor={colors.gray}
               keyboardType="number-pad"
               style={[fonts.mediumText, { color: colors.black }]}
@@ -150,7 +150,7 @@ export default function AgeLimitSection({
               onEndEditing={() =>
                 validateYear(minBirthYear, onChangeMinBirthYear, "min")
               }
-              placeholder="예) 1995"
+              placeholder="예) 2000"
               placeholderTextColor={colors.gray}
               keyboardType="number-pad"
               style={[fonts.mediumText, { color: colors.black }]}
