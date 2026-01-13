@@ -14,6 +14,6 @@ export type MemberStyle = {
   immerseScore: number;
   frontScore: number;
   backScore: number;
-  iscore: number;
-  escore: number;
+  iScore: number;
+  eScore: number;
 };

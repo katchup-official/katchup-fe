@@ -4,10 +4,14 @@ import { colors, styleColors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 import StyleRow from "./StyleRow";
 
-import { member } from "@/mocks/member";
+import type { Member } from "@/types/member";
 
-export default function MyStyleSection() {
-  const { style } = member;
+type MyStyleSectionProps = {
+  member: Member;
+};
+
+export default function MyStyleSection({ member }: MyStyleSectionProps) {
+  const style = member.style;
 
   if (!style) return null;
 
@@ -32,8 +36,8 @@ export default function MyStyleSection() {
       <StyleRow
         leftLabel="외향형"
         rightLabel="내향형"
-        leftValue={style.escore}
-        rightValue={style.iscore}
+        leftValue={style.eScore}
+        rightValue={style.iScore}
         barColor={styleColors.style1}
         icon="people-outline"
       />

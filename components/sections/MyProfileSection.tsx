@@ -4,9 +4,13 @@ import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 
 import { profileImages } from "@/utils/profileImgMapper";
-import { member } from "@/mocks/member";
+import type { Member } from "@/types/member";
 
-export default function MyProfileSection() {
+type MyProfileSectionProps = {
+  member: Member;
+};
+
+export default function MyProfileSection({ member }: MyProfileSectionProps) {
   return (
     <View>
       <View className="flex-row items-center px-6 pt-10">

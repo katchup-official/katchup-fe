@@ -12,3 +12,11 @@ export async function getMyMemberInfo(): Promise<Member> {
   const res = await axiosWithAuthorization.get<MemberResponse>("/members/me");
   return res.data.data;
 }
+
+export async function getOtherMemberInfo(memberId: number): Promise<Member> {
+  const res = await axiosWithAuthorization.get<MemberResponse>(
+    `/members/${memberId}`
+  );
+  return res.data.data;
+}
+
