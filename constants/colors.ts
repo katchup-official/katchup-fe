@@ -22,6 +22,7 @@ export const styleColors = {
   style2: "#FEC611",
   style3: "#EF6368",
   style4: "#F8937A",
+  styleBg: "#D9D9D9",
   
 } as const;
 

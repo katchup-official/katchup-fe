@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, LayoutChangeEvent } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors } from "@/constants/colors";
+import { colors, styleColors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 
 type StyleRowProps = {
@@ -14,8 +14,27 @@ type StyleRowProps = {
   isLast?: boolean;
 };
 
-const ICON_SIZE = 44;
-const TRACK_HEIGHT = 22;
+const STYLE_ROW_UI = {
+  ICON_SIZE: 44,
+  TRACK_HEIGHT: 22,
+  MIN_FILL_PX: 5,
+  TRACK_BG: styleColors.styleBg,
+  ICON_BORDER: 4,
+} as const;
+
+const clampPct = (v: number) => Math.max(0, Math.min(100, v));
+
+const SCALE_EXP = 0.75;
+const scaledRatio = (pct: number) =>
+  Math.pow(clampPct(pct) / 100, SCALE_EXP);
+
+const calcFillPx = (half: number, value: number) => {
+  const pct = clampPct(value);
+  if (pct <= 0) return 0;
+
+  const raw = half * scaledRatio(pct);
+  return Math.max(STYLE_ROW_UI.MIN_FILL_PX, raw);
+};
 
 export default function StyleRow({
   leftLabel,
@@ -28,17 +47,21 @@ export default function StyleRow({
 }: StyleRowProps) {
   const [trackWidth, setTrackWidth] = React.useState(0);
 
-  const onTrackLayout = (e: LayoutChangeEvent) => {
+  const onTrackLayout = React.useCallback((e: LayoutChangeEvent) => {
     const w = e.nativeEvent.layout.width;
     setTrackWidth((prev) => (prev === w ? prev : w));
-  };
+  }, []);
 
-  const half = trackWidth / 2;
+  const { half, leftFillPx, rightFillPx, iconLeftPx } = React.useMemo(() => {
+    const half = trackWidth / 2;
 
-  const leftFillPx = half * (Math.max(0, Math.min(100, leftValue)) / 100);
-  const rightFillPx = half * (Math.max(0, Math.min(100, rightValue)) / 100);
-
-  const iconLeftPx = half - ICON_SIZE / 2;
+    return {
+      half,
+      leftFillPx: calcFillPx(half, leftValue),
+      rightFillPx: calcFillPx(half, rightValue),
+      iconLeftPx: half - STYLE_ROW_UI.ICON_SIZE / 2,
+    };
+  }, [trackWidth, leftValue, rightValue]);
 
   return (
     <View className={isLast ? "mb-4" : "mb-8"}>
@@ -50,13 +73,12 @@ export default function StyleRow({
           {rightLabel} {rightValue}%
         </Text>
       </View>
-
       <View
         onLayout={onTrackLayout}
         style={{
-          height: TRACK_HEIGHT,
-          borderRadius: TRACK_HEIGHT / 2,
-          backgroundColor: "#D9D9D9",
+          height: STYLE_ROW_UI.TRACK_HEIGHT,
+          borderRadius: STYLE_ROW_UI.TRACK_HEIGHT / 2,
+          backgroundColor: STYLE_ROW_UI.TRACK_BG,
           overflow: "visible",
           position: "relative",
         }}
@@ -66,39 +88,37 @@ export default function StyleRow({
             position: "absolute",
             right: half,
             top: 0,
-            height: TRACK_HEIGHT,
+            height: STYLE_ROW_UI.TRACK_HEIGHT,
             width: leftFillPx,
             backgroundColor: barColor,
-            borderTopLeftRadius: TRACK_HEIGHT / 2,
-            borderBottomLeftRadius: TRACK_HEIGHT / 2,
+            borderTopLeftRadius: STYLE_ROW_UI.TRACK_HEIGHT / 2,
+            borderBottomLeftRadius: STYLE_ROW_UI.TRACK_HEIGHT / 2,
           }}
         />
-
         <View
           style={{
             position: "absolute",
             left: half,
             top: 0,
-            height: TRACK_HEIGHT,
+            height: STYLE_ROW_UI.TRACK_HEIGHT,
             width: rightFillPx,
             backgroundColor: barColor,
-            borderTopRightRadius: TRACK_HEIGHT / 2,
-            borderBottomRightRadius: TRACK_HEIGHT / 2,
+            borderTopRightRadius: STYLE_ROW_UI.TRACK_HEIGHT / 2,
+            borderBottomRightRadius: STYLE_ROW_UI.TRACK_HEIGHT / 2,
           }}
         />
-
         <View
           style={{
             position: "absolute",
-            top: -(ICON_SIZE - TRACK_HEIGHT) / 2,
+            top: -(STYLE_ROW_UI.ICON_SIZE - STYLE_ROW_UI.TRACK_HEIGHT) / 2,
             left: iconLeftPx,
-            width: ICON_SIZE,
-            height: ICON_SIZE,
-            borderRadius: ICON_SIZE / 2,
+            width: STYLE_ROW_UI.ICON_SIZE,
+            height: STYLE_ROW_UI.ICON_SIZE,
+            borderRadius: STYLE_ROW_UI.ICON_SIZE / 2,
             backgroundColor: colors.white,
             alignItems: "center",
             justifyContent: "center",
-            borderWidth: 4,
+            borderWidth: STYLE_ROW_UI.ICON_BORDER,
             borderColor: barColor,
           }}
         >
