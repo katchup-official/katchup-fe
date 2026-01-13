@@ -1,30 +1,12 @@
 import axiosWithAuthorization from "./auth/axiosWithAuthorization";
 import type { EventItem } from "@/types/event";
+import type { SliceResponse, ApiResponse } from "@/types/response";
 
 export const EVENTS_SLICE_SIZE = 6;
 
 export type GetEventsParams = {
   lastEventId?: number;
   size?: number;
-};
-
-export type SliceResponse<T> = {
-  content: T[];
-  last: boolean;
-  first: boolean;
-  empty: boolean;
-  number: number;
-  size: number;
-  numberOfElements: number;
-  pageable?: unknown;
-  sort?: unknown;
-};
-
-export type ApiResponse<T> = {
-  data: T;
-  status: number;
-  success: boolean;
-  timestamp: string;
 };
 
 export type EventsData = {
