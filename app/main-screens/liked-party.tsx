@@ -24,9 +24,6 @@ export default function LikedPartyListScreen(){
   const [selectedPartyId, setSelectedPartyId] = useState<number | null>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
     
-  const selectedParty =
-    partyData.find((party) => party.partyId === selectedPartyId) ?? null;
-
   const isInitialLoading = isFetching && partyData.length === 0;
 
   const loadLikedParties = async (mode: "RESET" | "MORE") => {
@@ -68,6 +65,11 @@ export default function LikedPartyListScreen(){
   );
 
   const handleToggleLike = async (partyId: number) => {
+    if (selectedPartyId === partyId) {
+      setIsBottomSheetOpen(false);
+      setSelectedPartyId(null);
+    }
+
     const backup = partyData;
     setPartyData((prev) => prev.filter((p) => p.partyId !== partyId));
 
@@ -123,8 +125,11 @@ export default function LikedPartyListScreen(){
 
       <PartyBottomSheet
           isVisible={isBottomSheetOpen}
-          party={selectedParty}
-          onClose={() => { setIsBottomSheetOpen(false);}}
+          partyId={selectedPartyId}
+          onClose={() => {
+            setIsBottomSheetOpen(false);
+            setSelectedPartyId(null);
+          }}
           onToggleLike={handleToggleLike}
       />
       {toastMessage && <ShortToast message={toastMessage} />}

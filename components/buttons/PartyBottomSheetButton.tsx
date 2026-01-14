@@ -8,16 +8,14 @@ import type { PartyItem } from "@/types/party";
 
 type PartyBottomSheetButtonProps = {
   party: PartyItem;
-  memberId: number;
   onToggleLike?: (id: number) => void;
 };
 
 export default function PartyBottomSheetButton({
   party,
-  memberId,
   onToggleLike,
 }: PartyBottomSheetButtonProps) {
-  const isHost = party.host.memberId === memberId;
+  const isHost = party.role === "HOST";
 
   const [partyStatus, setPartyStatus] = useState<PartyItem["status"]>(
     party.status

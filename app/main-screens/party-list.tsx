@@ -42,9 +42,6 @@ export default function PartyListScreen(){
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const isInitialLoading = isFetching[selectedTab] && partyData.length === 0;
-  
-  const selectedParty =
-    partyData.find((party) => party.partyId === selectedPartyId) ?? null;
 
   const toggleLikeInState = (tab: TabType, partyId: number) => {
     if (tab === "ALL") {
@@ -87,8 +84,8 @@ export default function PartyListScreen(){
   };
 
   const handleSelectParty = (party: PartyItem) => {
-      setSelectedPartyId(party.partyId);
-      setIsBottomSheetOpen(true);
+    setSelectedPartyId(party.partyId);
+    setIsBottomSheetOpen(true);
   };
 
   const clearSelection = () => {
@@ -175,8 +172,11 @@ export default function PartyListScreen(){
 
       <PartyBottomSheet
         isVisible={isBottomSheetOpen}
-        party={selectedParty}
-        onClose={() => { setIsBottomSheetOpen(false);}}
+        partyId={selectedPartyId}
+        onClose={() => {
+          setIsBottomSheetOpen(false);
+          setSelectedPartyId(null);
+        }}
         onToggleLike={handleToggleLike}
       />
 

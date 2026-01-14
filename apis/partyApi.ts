@@ -29,6 +29,13 @@ export async function createParty(body: CreatePartyRequest): Promise<ApiResponse
   return res.data;
 }
 
+export async function getPartyDetail(partyId: number): Promise<PartyItem> {
+  const res = await axiosWithAuthorization.get<ApiResponse<PartyItem>>(
+    `/parties/${partyId}`
+  );
+  return res.data.data;
+}
+
 /* -------------------- 파티 목록 조회 -------------------- */
 
 // host : 내가 생성한 파티 목록 조회
