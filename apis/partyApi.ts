@@ -68,7 +68,27 @@ export async function togglePartyLike(
   const res = await axiosWithAuthorization.post<ApiResponse<null>>(
     `/parties/${partyId}/like`
   );
-
-  console.log("[API] 파티 찜 토글 응답:", res.data);
   return res.data;
+}
+
+export type GetLikedPartiesParams = {
+  lastLikeId?: number;
+  size?: number;
+};
+
+export async function getLikedPartyList(
+  params: GetLikedPartiesParams = {}
+): Promise<SliceResponse<PartyItem>> {
+  const { lastLikeId, size = PARTIES_SLICE_SIZE } = params;
+
+  const res = await axiosWithAuthorization.get<
+    ApiResponse<SliceResponse<PartyItem>>
+  >("/parties/list/liked", {
+    params: {
+      ...(lastLikeId != null ? { lastLikeId } : {}),
+      size,
+    },
+  });
+
+  return res.data.data;
 }

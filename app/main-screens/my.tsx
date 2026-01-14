@@ -19,8 +19,6 @@ export default function MyScreen(){
       try {
         setLoading(true);
         const me = await getMyMemberInfo();
-        console.log("[MyScreen] getMyMemberInfo response:", me);
-        
         if (!mounted) return;
         setMember(me);
       } catch (e) {
