@@ -82,28 +82,6 @@ export default function PartyBottomSheetButton({
 
       setToastMessage("파티가 확정되었습니다!");
       setTimeout(() => setToastMessage(null), 1500);
-    // } catch (e: unknown) {
-    //   let msg = "파티 확정에 실패했어요. 다시 시도해주세요.";
-    //   if (axios.isAxiosError(e)) {
-    //     const data = e.response?.data as any;
-    //     const serverMsg =
-    //       data?.data?.message ||
-    //       data?.message ||
-    //       data?.error ||
-    //       data?.detail ||
-    //       data?.title;
-
-    //     if (typeof serverMsg === "string" && serverMsg.trim()) {
-    //       msg = serverMsg;
-    //     }
-
-    //     console.warn("파티 확정 실패:", e.response?.status, e.response?.data);
-    //     throw new Error(msg);
-    //   } else {
-    //     console.warn("파티 확정 실패:", e);
-    //   }
-
-    //   throw new Error(msg);
     } finally {
       setIsConfirming(false);
     }
