@@ -73,35 +73,49 @@ export default function CreatePartyInput({
   const arrivalLabel = facilityName; 
   const [arrivalPlace, setArrivalPlace] = useState<KakaoPlace | null>(null);
 
+  const sanitizePlaceKeyword = (name: string) => {
+    return name
+      .replace(/\(.*?\)/g, "")
+      .replace(/\[.*?\]/g, "")
+      .replace(/\{.*?\}/g, "")
+      .replace(/[·•∙・]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
   // facilityName 기반으로 도착지 위치 검색
+  // facilityName으로 위치 검색 실패하면 정제 키워드로 재검색
   useEffect(() => {
-    let isMounted = true;
+  let isMounted = true;
 
-    const fetchArrivalPlace = async () => {
-      if (!facilityName) return;
+  const fetchArrivalPlace = async () => {
+    if (!facilityName) return;
 
-      try {
-        const results = await searchKakaoPlaces(facilityName);
+    try {
+      let results = await searchKakaoPlaces(facilityName);
 
-        if (!isMounted) return;
+      if (results.length === 0) {
+        const parsed = sanitizePlaceKeyword(facilityName);
 
-        if (results.length > 0) {
-          setArrivalPlace(results[0]);
-        } else {
-          setArrivalPlace(null);
+        if (parsed && parsed !== facilityName) {
+          results = await searchKakaoPlaces(parsed);
         }
-      } catch (e) {
-        console.warn("arrival 검색 실패:", e);
-        if (isMounted) setArrivalPlace(null);
       }
-    };
 
-    fetchArrivalPlace();
+      if (!isMounted) return;
 
-    return () => {
-      isMounted = false;
-    };
-  }, [facilityName]);
+      setArrivalPlace(results.length > 0 ? results[0] : null);
+    } catch (e) {
+      console.warn("arrival 검색 실패:", e);
+      if (isMounted) setArrivalPlace(null);
+    }
+  };
+
+  fetchArrivalPlace();
+  return () => {
+    isMounted = false;
+  };
+}, [facilityName]);
 
   const [startAt, setStartAt] = useState("");
   const [returnAt, setReturnAt] = useState(""); 
