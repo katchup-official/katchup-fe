@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect, useRef, useCallback} from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import PartyList from "@/components/lists/PartyList";
 import PartyBottomSheet from "@/components/sections/PartyBottomSheet";
@@ -94,52 +95,84 @@ export default function PartyListScreen(){
     return "host";
   };
 
-  const loadParties = async (tab: TabType, mode: "RESET" | "MORE") => {
-    if (isFetching[tab]) return;
-    if (mode === "MORE" && !hasMore[tab]) return;
-
-    setIsFetching((prev) => ({ ...prev, [tab]: true }));
-    try {
-      const type = getListTypeByTab(tab);
-      const lastId = mode === "RESET" ? undefined : cursor[tab];
-
-      const res = await getPartyList(type, { lastParticipantId: lastId });
-      const newItems = res.content ?? [];
-
-      if (tab === "ALL") {
-        setAllPartyData((prev) => (mode === "RESET" ? newItems : [...prev, ...newItems]));
-      } else {
-        setMyPartyData((prev) => (mode === "RESET" ? newItems : [...prev, ...newItems]));
+  const loadParties = useCallback(
+    async (tab: TabType, mode: "RESET" | "MORE", forceReset?: boolean) => {
+      if (!forceReset) {
+        if (isFetching[tab]) return;
+        if (mode === "MORE" && !hasMore[tab]) return;
       }
 
-      setHasMore((prev) => ({ ...prev, [tab]: !res.last }));
+      setIsFetching((prev) => ({ ...prev, [tab]: true }));
+      try {
+        const type = getListTypeByTab(tab);
+        const lastId = mode === "RESET" ? undefined : cursor[tab];
 
-      const lastItem = newItems[newItems.length - 1];
-      setCursor((prev) => ({ ...prev, [tab]: lastItem ? lastItem.partyId : undefined }));
-    } catch (e) {
-      console.warn("파티 목록 조회 실패:", e);
-      setToastMessage("파티 목록을 불러오지 못했어요.");
-      setTimeout(() => setToastMessage(null), 1500);
-    } finally {
-      setIsFetching((prev) => ({ ...prev, [tab]: false }));
-    }
-  };
+        const res = await getPartyList(type, { lastParticipantId: lastId });
+        const newItems = res.content ?? [];
+
+        if (tab === "ALL") {
+          setAllPartyData((prev) =>
+            mode === "RESET" ? newItems : [...prev, ...newItems]
+          );
+        } else {
+          setMyPartyData((prev) =>
+            mode === "RESET" ? newItems : [...prev, ...newItems]
+          );
+        }
+
+        setHasMore((prev) => ({ ...prev, [tab]: !res.last }));
+
+        const lastItem = newItems[newItems.length - 1];
+        setCursor((prev) => ({
+          ...prev,
+          [tab]: lastItem ? lastItem.partyId : undefined,
+        }));
+      } catch (e) {
+        console.warn("파티 목록 조회 실패:", e);
+        setToastMessage("파티 목록을 불러오지 못했어요.");
+        setTimeout(() => setToastMessage(null), 1500);
+      } finally {
+        setIsFetching((prev) => ({ ...prev, [tab]: false }));
+      }
+    },
+    [isFetching, hasMore, cursor]
+  );
+
+  const didMountRef = useRef(false);
 
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
     setIsBottomSheetOpen(false);
     setSelectedPartyId(null);
 
-    setCursor((prev) => ({ ...prev, [selectedTab]: undefined }));
-    setHasMore((prev) => ({ ...prev, [selectedTab]: true }));
-
     if (selectedTab === "ALL") {
-      setAllPartyData([]);
+      if (allPartyData.length > 0) return;
       loadParties("ALL", "RESET");
     } else {
-      setMyPartyData([]);
+      if (myPartyData.length > 0) return;
       loadParties("MY", "RESET");
     }
   }, [selectedTab]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsBottomSheetOpen(false);
+      setSelectedPartyId(null);
+
+      setCursor({ ALL: undefined, MY: undefined });
+      setHasMore({ ALL: true, MY: true });
+
+      setAllPartyData([]);
+      setMyPartyData([]);
+
+      loadParties("ALL", "RESET", true);
+      loadParties("MY", "RESET", true);
+    }, [])
+  );
 
   return (
     <>
