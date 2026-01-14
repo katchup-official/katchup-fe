@@ -1,3 +1,5 @@
+import type { Place } from "@/types/place";
+
 export type PartyStatus = 'RECRUITING' | 'RECRUIT_COMPLETED' | 'COMPLETED';
 export type PartyType = 'SCHEDULE_AND_TRANSPORT' | 'SCHEDULE_ONLY' | 'TRANSPORT_ONLY';
 export type GenderType = 'MALE' | 'FEMALE' | 'ALL';
@@ -10,14 +12,6 @@ export type PartyMember = {
   nickname: string | null;
   profileImage: number | null;
   role: HostRole;
-};
-
-export type Place = {
-  placeName: string;
-  addressName: string;
-  roadAddressName: string;
-  latitude: number;
-  longitude: number;
 };
 
 export interface PartyItem {

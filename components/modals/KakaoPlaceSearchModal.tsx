@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
-import type { KakaoPlace } from "@/types/kakao-place";
+import type { KakaoPlace } from "@/types/place";
 import { searchKakaoPlaces } from "@/apis/kakaoApi"
 
 type KakaoPlaceSearchModalProps = {

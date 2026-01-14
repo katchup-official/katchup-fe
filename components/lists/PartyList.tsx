@@ -11,6 +11,7 @@ type PartyListProps = {
   onToggleLike: (id: number) => void;
   onSelectParty?: (party: PartyItem) => void;
   selectedPartyId?: number | null;
+  isLoading?: boolean;
 };
 
 export default function PartyList({
@@ -19,25 +20,32 @@ export default function PartyList({
   countPartyNum,
   onSelectParty,
   selectedPartyId,
+  isLoading
 }: PartyListProps) {
   const shouldShowEmpty = countPartyNum === 0;
 
-  return (
-    <View className="px-4 py-2 mt-5">
-      {shouldShowEmpty ? (
+  if (isLoading) return null;
+
+  if (shouldShowEmpty) {
+    return (
+      <View className="px-4">
         <EmptyBox message="등록된 파티가 없습니다" />
-      ) : (
-        partyData.map((item) => (
-          <PartyCard
-            key={item.partyId}
-            item={item}
-            selectable
-            isSelected={selectedPartyId === item.partyId}
-            onSelect={onSelectParty}
-            onToggleLike={onToggleLike}
-          />
-        ))
-      )}
+      </View>
+    );
+  }
+
+  return (
+    <View className="px-4">
+      {partyData.map((item) => (
+        <PartyCard
+          key={item.partyId}
+          item={item}
+          selectable
+          isSelected={selectedPartyId === item.partyId}
+          onSelect={onSelectParty}
+          onToggleLike={onToggleLike}
+        />
+      ))}
     </View>
   );
 }

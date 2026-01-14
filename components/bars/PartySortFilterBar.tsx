@@ -42,7 +42,7 @@ export default function PartySortFilterBar({
 
   return (
     <View
-      className="mx-5 mt-6"
+      className="mx-5 mt-6 mb-4"
       style={{
         position: "relative",
         zIndex: hasOverlay ? 30 : 0,

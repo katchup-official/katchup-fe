@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { View, TextInput, } from "react-native";
 import { getDateRange, toKSTIsoString } from "@/utils/dateTime";
 import { PartyType, RouteType, GenderType } from "@/types/party";
-import type { KakaoPlace } from "@/types/kakao-place";
+import type { KakaoPlace } from "@/types/place";
 import { searchKakaoPlaces } from "@/apis/kakaoApi";
 
 import Label from "./create-party/InputLabel";
@@ -16,6 +16,9 @@ import EtcSection from "./create-party/EtcSection";
 
 import CreatePartyButton from "../buttons/CreatePartyButton";
 import KakaoPlaceSearchModal from "../modals/KakaoPlaceSearchModal";
+
+import ShortToast from "@/components/toasts/ShortToast";
+import { createParty } from "@/apis/partyApi";
 
 interface CreatePartyInputProps {
   eventId: number;
@@ -70,35 +73,49 @@ export default function CreatePartyInput({
   const arrivalLabel = facilityName; 
   const [arrivalPlace, setArrivalPlace] = useState<KakaoPlace | null>(null);
 
+  const sanitizePlaceKeyword = (name: string) => {
+    return name
+      .replace(/\(.*?\)/g, "")
+      .replace(/\[.*?\]/g, "")
+      .replace(/\{.*?\}/g, "")
+      .replace(/[·•∙・]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
   // facilityName 기반으로 도착지 위치 검색
+  // facilityName으로 위치 검색 실패하면 정제 키워드로 재검색
   useEffect(() => {
-    let isMounted = true;
+  let isMounted = true;
 
-    const fetchArrivalPlace = async () => {
-      if (!facilityName) return;
+  const fetchArrivalPlace = async () => {
+    if (!facilityName) return;
 
-      try {
-        const results = await searchKakaoPlaces(facilityName);
+    try {
+      let results = await searchKakaoPlaces(facilityName);
 
-        if (!isMounted) return;
+      if (results.length === 0) {
+        const parsed = sanitizePlaceKeyword(facilityName);
 
-        if (results.length > 0) {
-          setArrivalPlace(results[0]);
-        } else {
-          setArrivalPlace(null);
+        if (parsed && parsed !== facilityName) {
+          results = await searchKakaoPlaces(parsed);
         }
-      } catch (e) {
-        console.warn("arrival 검색 실패:", e);
-        if (isMounted) setArrivalPlace(null);
       }
-    };
 
-    fetchArrivalPlace();
+      if (!isMounted) return;
 
-    return () => {
-      isMounted = false;
-    };
-  }, [facilityName]);
+      setArrivalPlace(results.length > 0 ? results[0] : null);
+    } catch (e) {
+      console.warn("arrival 검색 실패:", e);
+      if (isMounted) setArrivalPlace(null);
+    }
+  };
+
+  fetchArrivalPlace();
+  return () => {
+    isMounted = false;
+  };
+}, [facilityName]);
 
   const [startAt, setStartAt] = useState("");
   const [returnAt, setReturnAt] = useState(""); 
@@ -121,7 +138,8 @@ export default function CreatePartyInput({
   const [etc, setEtc] = useState("");
 
   // 입력폼 유효성 확인
-  const isRoundTrip = routeType === "ROUND_TRIP";
+  const needsTransport = partyType !== "SCHEDULE_ONLY";
+  const isRoundTrip = needsTransport && routeType === "ROUND_TRIP";
 
   const isTimeValid =
     !!startAt && (!isRoundTrip || !!returnAt);
@@ -133,30 +151,32 @@ export default function CreatePartyInput({
     !!eventId &&
     !!partyDate &&
     !!partyType &&
-    !!routeType &&
-    !!departurePlace &&
+    !!departurePlace && 
     !!arrivalPlace &&
     !!capacity &&
     !!genderLimit;
 
   const isFormValid = isBasicFilled && isTimeValid && isAgeValid;
 
-  const handleCreateParty = () => {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const handleCreateParty = async () => {
     if (!isFormValid) {
-      console.log("필수 항목이 모두 채워지지 않았습니다.");
+      setToastMessage("항목을 모두 입력해주세요.");
+      setTimeout(() => setToastMessage(null), 1500);
       return;
     }
 
     const startAtIso = toKSTIsoString(partyDate, startAt);
     const endAtIso =
-    routeType === "ROUND_TRIP" && returnAt
+    partyType !== "SCHEDULE_ONLY" && routeType === "ROUND_TRIP" && returnAt
       ? toKSTIsoString(partyDate, returnAt)
       : null;
 
     const body = {
       eventId: eventId,
       type: partyType,
-      routeType: routeType,
+      routeType: partyType === "SCHEDULE_ONLY" ? null : routeType,
       gender: genderLimit,
       capacity: Number(capacity),
       maxBirthYear: hasAgeLimit && maxBirthYear ? Number(maxBirthYear) : null,
@@ -164,11 +184,22 @@ export default function CreatePartyInput({
       startAt: startAtIso,
       endAt: endAtIso,
       description: etc,
-      departure: departurePlace,
-      arrival: arrivalPlace,
+      departure: departurePlace!,
+      arrival: arrivalPlace!,
     };
-    console.log(body);
-    onCreateSuccess?.(); 
+    try {
+      await createParty(body);
+
+      setToastMessage("파티가 생성되었습니다!");
+      setTimeout(() => {
+        setToastMessage(null);
+        onCreateSuccess?.();
+      }, 1200);
+    } catch (e) {
+      console.warn("파티 생성 실패:", e);
+      setToastMessage("파티 생성에 실패했어요. 다시 시도해주세요.");
+      setTimeout(() => setToastMessage(null), 1500);
+    }
   };
 
   return (
@@ -192,18 +223,20 @@ export default function CreatePartyInput({
           />
         </View>
 
-        <View className="mb-5">
-          <Label>이동 형태</Label>
-          <SegmentGroup<RouteType>
-            options={routeTypeOptions}
-            value={routeType}
-            onChange={setRouteType}
-          />
-        </View>
+        {partyType !== "SCHEDULE_ONLY" && (
+          <View className="mb-5">
+            <Label>이동 형태</Label>
+            <SegmentGroup<RouteType>
+              options={routeTypeOptions}
+              value={routeType}
+              onChange={setRouteType}
+            />
+          </View>
+        )}
 
         <View className="mb-5">
           <Label>장소</Label>
-          <LocationSection
+          <LocationSection  
             departure={departure}
             arrivalLabel={arrivalLabel}
             onChangeDeparture={setDeparture}
@@ -214,6 +247,7 @@ export default function CreatePartyInput({
         <View className="mb-5">
           <Label>집합 시간</Label>
           <TimeSection
+            partyType={partyType}
             routeType={routeType}
             startAt={startAt}
             returnAt={returnAt}
@@ -272,6 +306,7 @@ export default function CreatePartyInput({
         onSelect={handleSelectDeparturePlace}
         title="출발지 검색"
       />
+      {toastMessage && <ShortToast message={toastMessage} />}
     </>
   );
 }

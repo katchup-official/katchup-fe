@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Animated, Dimensions, Modal, PanResponder, } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
@@ -10,40 +10,39 @@ import PartyBottomSheetButton from "@/components/buttons/PartyBottomSheetButton"
 import PartyChatLinkButton from "@/components/buttons/PartyChatLinkButton";
 import ReviewMemberListButton from "../buttons/ReviewMemberListButton";
 
-import { member } from "@/mocks/member";
+import { getPartyDetail } from "@/apis/partyApi";
 
 type PartyBottomSheetProps = {
   isVisible: boolean;  
-  party: PartyItem | null;
+  partyId: number | null;
   onClose: () => void;
-  onToggleLike?: (id: number) => void;
+  onToggleLike?: (id: number) => Promise<void>;
 };
 
 const { height } = Dimensions.get("window");
 const SHEET_HEIGHT = height * 0.72;
 const CLOSE_THRESHOLD = 70;
 
-export default function PartyBottomSheet({
+function PartyBottomSheet({
   isVisible,
-  party,
+  partyId,
   onClose,
   onToggleLike,
 }: PartyBottomSheetProps) {
   const translateY = useRef(new Animated.Value(SHEET_HEIGHT)).current;
 
+  const [party, setParty] = useState<PartyItem | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const panResponder = useRef(
   PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: (_, gestureState) => {
-      return Math.abs(gestureState.dy) > 5;
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 5,
+    onPanResponderMove: (_, g) => {
+      if (g.dy > 0) translateY.setValue(g.dy);
     },
-    onPanResponderMove: (_, gestureState) => {
-      if (gestureState.dy > 0) {
-        translateY.setValue(gestureState.dy);
-      }
-    },
-    onPanResponderRelease: (_, gestureState) => {
-      if (gestureState.dy > CLOSE_THRESHOLD) {
+    onPanResponderRelease: (_, g) => {
+      if (g.dy > CLOSE_THRESHOLD) {
         Animated.timing(translateY, {
           toValue: SHEET_HEIGHT,
           duration: 200,
@@ -60,6 +59,11 @@ export default function PartyBottomSheet({
   })
 ).current;
 
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
   useEffect(() => {
     Animated.timing(translateY, {
       toValue: isVisible ? 0 : SHEET_HEIGHT,
@@ -68,7 +72,82 @@ export default function PartyBottomSheet({
     }).start();
   }, [isVisible, translateY]);
 
-  if (!party) return null;
+  useEffect(() => {
+    if (!isVisible) return;
+    if (!partyId) return;
+
+    let alive = true;
+
+    (async () => {
+      setIsLoading(true);
+      try {
+        const detail = await getPartyDetail(partyId);
+        if (!alive) return;
+        setParty(detail);
+      } catch (e) {
+        console.warn("파티 상세 조회 실패:", e);
+        if (!alive) return;
+        setParty(null);
+        onCloseRef.current(); 
+      } finally {
+        if (!alive) return;
+        setIsLoading(false);
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [isVisible, partyId]);
+
+  const handleToggleLikeInSheet = async (id: number) => {
+    if (!party) return;
+
+    const prevLiked = party.isLiked;
+
+    setParty((prev) => (prev ? { ...prev, isLiked: !prev.isLiked } : prev));
+
+    try {
+      await onToggleLike?.(id);
+    } catch (e) {
+      setParty((prev) => (prev ? { ...prev, isLiked: prevLiked } : prev));
+    }
+  };
+
+  if (!isVisible) return null;
+
+  if (isLoading || !party) {
+    return (
+      <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
+        <View className="flex-1">
+          <TouchableOpacity style={StyleSheet.absoluteFillObject} activeOpacity={1} onPress={onClose}>
+            <View className="flex-1 bg-black/40" />
+          </TouchableOpacity>
+
+          <Animated.View
+            className="absolute left-0 right-0 rounded-t-3xl"
+            style={{
+              bottom: 0,
+              height: SHEET_HEIGHT,
+              backgroundColor: colors.white,
+              transform: [{ translateY }],
+            }}
+            {...panResponder.panHandlers}
+          >
+            <View className="items-center pt-3 pb-2">
+              <View className="w-12 h-1.5 rounded-full" style={{ backgroundColor: colors.gray }} />
+            </View>
+
+            <View className="flex-1 items-center justify-center">
+              <Text style={[fonts.mediumText, { color: colors.black }]}>
+                상세 정보를 불러오는 중...
+              </Text>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
+    );
+  }
 
   const { label: statusLabel, color: statusColor } = formatPartyStatus(
     party.status
@@ -78,18 +157,26 @@ export default function PartyBottomSheet({
   const tags = [
     formatDate(party.startAt),
     formatPartyType(party.type),
-    routeLabel,
+    ...(party.type !== "SCHEDULE_ONLY" ? [routeLabel] : []),
     formatGender(party.gender),
   ];
 
-  const isHost = party.role === "HOST";
-  const isParticipant = party.role === "GUEST";
   const isJoined = party.role !== "NONE";
 
   const canViewChatLink =
     party.status === "RECRUIT_COMPLETED" && isJoined && !!party.chatUrl;
 
   const canShowReviewButton = party.status === "COMPLETED";
+
+  const refreshParty = async () => {
+    if (!partyId) return;
+    try {
+      const detail = await getPartyDetail(partyId);
+      setParty(detail);
+    } catch (e) {
+      console.warn("파티 상세 재조회 실패:", e);
+    }
+  };
 
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
@@ -175,11 +262,13 @@ export default function PartyBottomSheet({
                 ))}
               </View>
 
-              <View className="bg-gray-200 rounded-xl px-4 py-3 mb-6">
-                <Text style={[fonts.smallText, { color: colors.black }]}>
-                  {party.description ?? "파티장님이 아직 소개를 작성하지 않았어요."}
-                </Text>
-              </View>
+              {party.description && (
+                <View className="bg-gray-200 rounded-xl px-4 py-3 mb-6">
+                  <Text style={[fonts.smallText, { color: colors.black }]}>
+                    {party.description}
+                  </Text>
+                </View>
+              )}
             </View>
 
             {canViewChatLink && (
@@ -197,8 +286,8 @@ export default function PartyBottomSheet({
 
             <PartyBottomSheetButton
               party={party}
-              memberId={member.memberId}
-              onToggleLike={onToggleLike}
+              onToggleLike={handleToggleLikeInSheet}
+              onConfirmed={refreshParty}
             />
           </View>
         </Animated.View>
@@ -206,3 +295,5 @@ export default function PartyBottomSheet({
     </Modal>
   );
 }
+
+export default React.memo(PartyBottomSheet);
