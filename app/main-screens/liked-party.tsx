@@ -78,7 +78,7 @@ export default function LikedPartyListScreen(){
     } catch (e) {
       console.warn("찜 해제 실패:", e);
       setPartyData(backup);
-      setToastMessage("찜 처리에 실패했어요.");
+      setToastMessage("찜 해제 처리에 실패했어요.");
       setTimeout(() => setToastMessage(null), 1500);
     }
   };

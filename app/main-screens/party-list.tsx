@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import PartyList from "@/components/lists/PartyList";
 import PartyBottomSheet from "@/components/sections/PartyBottomSheet";
@@ -30,7 +30,7 @@ export default function PartyListScreen(){
     MY: false,
   });
 
-  const [likingIds, setLikingIds] = useState<Set<number>>(new Set());
+  const likingIdsRef = useRef<Set<number>>(new Set());
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -61,9 +61,10 @@ export default function PartyListScreen(){
 
   const handleToggleLike = async (partyId: number) => {
     const tab = selectedTab;
-    if (likingIds.has(partyId)) return;
 
-    setLikingIds((prev) => new Set(prev).add(partyId));
+    if (likingIdsRef.current.has(partyId)) return;
+
+    likingIdsRef.current.add(partyId);
     toggleLikeInState(tab, partyId);
 
     try {
@@ -75,11 +76,7 @@ export default function PartyListScreen(){
       setToastMessage("찜 처리에 실패했어요.");
       setTimeout(() => setToastMessage(null), 1500);
     } finally {
-      setLikingIds((prev) => {
-        const next = new Set(prev);
-        next.delete(partyId);
-        return next;
-      });
+      likingIdsRef.current.delete(partyId);
     }
   };
 

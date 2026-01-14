@@ -16,14 +16,14 @@ type PartyBottomSheetProps = {
   isVisible: boolean;  
   partyId: number | null;
   onClose: () => void;
-  onToggleLike?: (id: number) => void;
+  onToggleLike?: (id: number) => Promise<void>;
 };
 
 const { height } = Dimensions.get("window");
 const SHEET_HEIGHT = height * 0.72;
 const CLOSE_THRESHOLD = 70;
 
-export default function PartyBottomSheet({
+function PartyBottomSheet({
   isVisible,
   partyId,
   onClose,
@@ -36,17 +36,13 @@ export default function PartyBottomSheet({
 
   const panResponder = useRef(
   PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: (_, gestureState) => {
-      return Math.abs(gestureState.dy) > 5;
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dy) > 5,
+    onPanResponderMove: (_, g) => {
+      if (g.dy > 0) translateY.setValue(g.dy);
     },
-    onPanResponderMove: (_, gestureState) => {
-      if (gestureState.dy > 0) {
-        translateY.setValue(gestureState.dy);
-      }
-    },
-    onPanResponderRelease: (_, gestureState) => {
-      if (gestureState.dy > CLOSE_THRESHOLD) {
+    onPanResponderRelease: (_, g) => {
+      if (g.dy > CLOSE_THRESHOLD) {
         Animated.timing(translateY, {
           toValue: SHEET_HEIGHT,
           duration: 200,
@@ -62,6 +58,11 @@ export default function PartyBottomSheet({
     },
   })
 ).current;
+
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     Animated.timing(translateY, {
@@ -87,7 +88,7 @@ export default function PartyBottomSheet({
         console.warn("파티 상세 조회 실패:", e);
         if (!alive) return;
         setParty(null);
-        onClose();
+        onCloseRef.current(); 
       } finally {
         if (!alive) return;
         setIsLoading(false);
@@ -97,7 +98,21 @@ export default function PartyBottomSheet({
     return () => {
       alive = false;
     };
-  }, [isVisible, partyId, onClose]);
+  }, [isVisible, partyId]);
+
+  const handleToggleLikeInSheet = async (id: number) => {
+    if (!party) return;
+
+    const prevLiked = party.isLiked;
+
+    setParty((prev) => (prev ? { ...prev, isLiked: !prev.isLiked } : prev));
+
+    try {
+      await onToggleLike?.(id);
+    } catch (e) {
+      setParty((prev) => (prev ? { ...prev, isLiked: prevLiked } : prev));
+    }
+  };
 
   if (!isVisible) return null;
 
@@ -261,7 +276,7 @@ export default function PartyBottomSheet({
 
             <PartyBottomSheetButton
               party={party}
-              onToggleLike={onToggleLike}
+              onToggleLike={handleToggleLikeInSheet}
             />
           </View>
         </Animated.View>
@@ -269,3 +284,5 @@ export default function PartyBottomSheet({
     </Modal>
   );
 }
+
+export default React.memo(PartyBottomSheet);
