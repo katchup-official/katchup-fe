@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
+const { height } = Dimensions.get("window");
 
 type ShortToastProps = {
   message: string;
@@ -13,7 +14,10 @@ export default function ShortToast({ message }: ShortToastProps) {
         className="absolute left-0 right-0 items-center"
         style={{
           position: "absolute",
-          top: -10,
+          left: 0,
+          right: 0,
+          bottom: 80,
+          alignItems: "center",
           zIndex: 9999,
           elevation: 9999,
       }}

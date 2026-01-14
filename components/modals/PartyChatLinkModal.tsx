@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Modal, View, Text, TouchableOpacity, TextInput } from "react-native";
 import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
+import ShortToast from "../toasts/ShortToast";
 
 type PartyChatLinkModalProps = {
   visible: boolean;
   chatUrl: string;
   onChangeChatUrl: (text: string) => void;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
 };
 
 export default function PartyChatLinkModal({
@@ -18,6 +19,36 @@ export default function PartyChatLinkModal({
   onCancel,
   onConfirm,
 }: PartyChatLinkModalProps) {
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setToastMsg(null), 1500);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const handleConfirmPress = async () => {
+    try {
+      await onConfirm();
+    } catch (e: any) {
+      const msg =
+        e?.message ??
+        e?.data?.message ??
+        e?.response?.data?.data?.message ??
+        e?.response?.data?.message ??
+        "요청에 실패했어요. 다시 시도해주세요.";
+
+      showToast(msg);
+    }
+  };
+
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <View className="flex-1 items-center justify-center bg-black/40">
@@ -50,12 +81,13 @@ export default function PartyChatLinkModal({
             <TouchableOpacity
               className="px-4 py-2 rounded-lg"
               style={{ backgroundColor: colors.orange }}
-              onPress={onConfirm}
+              onPress={handleConfirmPress}
             >
               <Text style={[fonts.smallText, { color: colors.white }]}>확정하기</Text>
             </TouchableOpacity>
           </View>
         </View>
+        {toastMsg && <ShortToast message={toastMsg} />}
       </View>
     </Modal>
   );

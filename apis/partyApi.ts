@@ -115,12 +115,38 @@ export async function confirmParty(
       `/parties/${partyId}`,
       body
     );
-    return res.data;
+
+    const data = res.data;
+
+    if (data?.success === false) {
+      const msg =
+        (data as any)?.data?.message ||
+        (data as any)?.message ||
+        "파티 확정에 실패했어요. 다시 시도해주세요.";
+
+      throw new Error(msg);
+    }
+
+    return data;
   } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.warn("[confirmParty] Error:", e.message);
+      throw e;
+    }
+
     if (axios.isAxiosError(e)) {
       console.warn("[confirmParty] status:", e.response?.status);
       console.warn("[confirmParty] data:", e.response?.data);
+
+      const serverMsg =
+        (e.response?.data as any)?.data?.message ||
+        (e.response?.data as any)?.message;
+
+      if (typeof serverMsg === "string" && serverMsg.trim()) {
+        throw new Error(serverMsg);
+      }
     }
+
     throw e;
   }
 }
