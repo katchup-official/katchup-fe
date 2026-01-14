@@ -29,3 +29,36 @@ export async function createParty(body: CreatePartyRequest): Promise<ApiResponse
   return res.data;
 }
 
+/* -------------------- 파티 목록 조회 -------------------- */
+
+// host : 내가 생성한 파티 목록 조회
+// participant : 내가 참여한 파티 조회
+export type PartyListType = "host" | "participant";
+
+export const PARTIES_SLICE_SIZE = 6;
+
+export type GetPartiesParams = {
+  lastParticipantId?: number;
+  size?: number;
+};
+
+export async function getPartyList(
+  type: PartyListType,
+  params: GetPartiesParams = {}
+): Promise<SliceResponse<PartyItem>> {
+  const { lastParticipantId, size = PARTIES_SLICE_SIZE } = params;
+
+  const res = await axiosWithAuthorization.get<
+    ApiResponse<SliceResponse<PartyItem>>
+  >(`/parties/list/${type}`, {
+    params: {
+      ...(lastParticipantId != null ? { lastParticipantId } : {}),
+      size,
+    },
+  });
+
+  return res.data.data;
+}
+
+
+
