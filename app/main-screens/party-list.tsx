@@ -31,6 +31,22 @@ export default function PartyListScreen(){
     MY: false,
   });
 
+  const cursorRef = useRef(cursor);
+  const hasMoreRef = useRef(hasMore);
+  const isFetchingRef = useRef(isFetching);
+
+  useEffect(() => {
+    cursorRef.current = cursor;
+  }, [cursor]);
+
+  useEffect(() => {
+    hasMoreRef.current = hasMore;
+  }, [hasMore]);
+
+  useEffect(() => {
+    isFetchingRef.current = isFetching;
+  }, [isFetching]);
+
   const likingIdsRef = useRef<Set<number>>(new Set());
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -97,26 +113,31 @@ export default function PartyListScreen(){
 
   const loadParties = useCallback(
     async (tab: TabType, mode: "RESET" | "MORE", forceReset?: boolean) => {
+      const fetching = isFetchingRef.current[tab];
+      const more = hasMoreRef.current[tab];
+      const lastCursor = cursorRef.current[tab];
+
       if (!forceReset) {
-        if (isFetching[tab]) return;
-        if (mode === "MORE" && !hasMore[tab]) return;
+        if (fetching) return;
+        if (mode === "MORE" && !more) return;
       }
 
       setIsFetching((prev) => ({ ...prev, [tab]: true }));
+
       try {
         const type = getListTypeByTab(tab);
-        const lastId = mode === "RESET" ? undefined : cursor[tab];
+        const lastId = mode === "RESET" || forceReset ? undefined : lastCursor;
 
         const res = await getPartyList(type, { lastParticipantId: lastId });
         const newItems = res.content ?? [];
 
         if (tab === "ALL") {
           setAllPartyData((prev) =>
-            mode === "RESET" ? newItems : [...prev, ...newItems]
+            mode === "RESET" || forceReset ? newItems : [...prev, ...newItems]
           );
         } else {
           setMyPartyData((prev) =>
-            mode === "RESET" ? newItems : [...prev, ...newItems]
+            mode === "RESET" || forceReset ? newItems : [...prev, ...newItems]
           );
         }
 
@@ -129,49 +150,51 @@ export default function PartyListScreen(){
         }));
       } catch (e) {
         console.warn("파티 목록 조회 실패:", e);
+
         setToastMessage("파티 목록을 불러오지 못했어요.");
         setTimeout(() => setToastMessage(null), 1500);
       } finally {
         setIsFetching((prev) => ({ ...prev, [tab]: false }));
       }
     },
-    [isFetching, hasMore, cursor]
+    []
   );
 
-  const didMountRef = useRef(false);
+  const refreshTab = useCallback(
+    (tab: TabType) => {
+      setIsBottomSheetOpen(false);
+      setSelectedPartyId(null);
 
+      setCursor((prev) => ({ ...prev, [tab]: undefined }));
+      setHasMore((prev) => ({ ...prev, [tab]: true }));
+
+      if (tab === "ALL") setAllPartyData([]);
+      else setMyPartyData([]);
+
+      loadParties(tab, "RESET", true);
+    },
+    [loadParties]
+  );
+
+  const handleChangeTab = useCallback(
+    (tab: TabType) => {
+      if (tab === selectedTab) return;
+
+      setSelectedTab(tab);
+      refreshTab(tab);
+    },
+    [selectedTab, refreshTab]
+  );
+
+  const selectedTabRef = useRef<TabType>(selectedTab);
   useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true;
-      return;
-    }
-
-    setIsBottomSheetOpen(false);
-    setSelectedPartyId(null);
-
-    if (selectedTab === "ALL") {
-      if (allPartyData.length > 0) return;
-      loadParties("ALL", "RESET");
-    } else {
-      if (myPartyData.length > 0) return;
-      loadParties("MY", "RESET");
-    }
+    selectedTabRef.current = selectedTab;
   }, [selectedTab]);
 
   useFocusEffect(
     useCallback(() => {
-      setIsBottomSheetOpen(false);
-      setSelectedPartyId(null);
-
-      setCursor({ ALL: undefined, MY: undefined });
-      setHasMore({ ALL: true, MY: true });
-
-      setAllPartyData([]);
-      setMyPartyData([]);
-
-      loadParties("ALL", "RESET", true);
-      loadParties("MY", "RESET", true);
-    }, [])
+      refreshTab(selectedTabRef.current);
+    }, [refreshTab])
   );
 
   return (
@@ -179,7 +202,7 @@ export default function PartyListScreen(){
       <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={clearSelection}>
         <View style={{ flex: 1, backgroundColor: colors.white }}>
           <PartyListTitle title="파티 목록" />
-          <PartyListBar selectedTab={selectedTab} onChangeTab={setSelectedTab} />
+          <PartyListBar selectedTab={selectedTab} onChangeTab={handleChangeTab} />
             <FlatList
               data={[{ key: "only" }]}
               keyExtractor={(item) => item.key}
