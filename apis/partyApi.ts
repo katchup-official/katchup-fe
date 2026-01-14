@@ -60,5 +60,15 @@ export async function getPartyList(
   return res.data.data;
 }
 
+/* -------------------- 관심 파티 -------------------- */
 
+export async function togglePartyLike(
+  partyId: number
+): Promise<ApiResponse<null>> {
+  const res = await axiosWithAuthorization.post<ApiResponse<null>>(
+    `/parties/${partyId}/like`
+  );
 
+  console.log("[API] 파티 찜 토글 응답:", res.data);
+  return res.data;
+}

@@ -10,7 +10,7 @@ import PartyListBar from "@/components/bars/PartyListBar";
 import LoadingOverlay from "@/components/loadings/LoadingOverlay";
 import ShortToast from "@/components/toasts/ShortToast";
 
-import { getPartyList, PartyListType } from "@/apis/partyApi";
+import { getPartyList, PartyListType, togglePartyLike } from "@/apis/partyApi";
 
 type TabType = "ALL" | "MY";
 
@@ -30,6 +30,8 @@ export default function PartyListScreen(){
     MY: false,
   });
 
+  const [likingIds, setLikingIds] = useState<Set<number>>(new Set());
+
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const partyData = useMemo(() => {
@@ -44,19 +46,43 @@ export default function PartyListScreen(){
   const selectedParty =
     partyData.find((party) => party.partyId === selectedPartyId) ?? null;
 
-  const handleToggleLike = (id: number) => {
-    if (selectedTab === "ALL") {
+  const toggleLikeInState = (tab: TabType, partyId: number) => {
+    if (tab === "ALL") {
       setAllPartyData((prev) =>
         prev.map((item) =>
-          item.partyId === id ? { ...item, isLiked: !item.isLiked } : item
+          item.partyId === partyId ? { ...item, isLiked: !item.isLiked } : item
         )
       );
     } else {
       setMyPartyData((prev) =>
         prev.map((item) =>
-          item.partyId === id ? { ...item, isLiked: !item.isLiked } : item
+          item.partyId === partyId ? { ...item, isLiked: !item.isLiked } : item
         )
       );
+    }
+  };
+
+  const handleToggleLike = async (partyId: number) => {
+    const tab = selectedTab;
+    if (likingIds.has(partyId)) return;
+
+    setLikingIds((prev) => new Set(prev).add(partyId));
+    toggleLikeInState(tab, partyId);
+
+    try {
+      await togglePartyLike(partyId);
+    } catch (e) {
+      toggleLikeInState(tab, partyId);
+
+      console.warn("파티 찜 실패:", e);
+      setToastMessage("찜 처리에 실패했어요.");
+      setTimeout(() => setToastMessage(null), 1500);
+    } finally {
+      setLikingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(partyId);
+        return next;
+      });
     }
   };
 
@@ -95,7 +121,7 @@ export default function PartyListScreen(){
       setHasMore((prev) => ({ ...prev, [tab]: !res.last }));
 
       const lastItem = newItems[newItems.length - 1];
-      if (lastItem) setCursor((prev) => ({ ...prev, [tab]: lastItem.partyId }));
+      setCursor((prev) => ({ ...prev, [tab]: lastItem ? lastItem.partyId : undefined }));
     } catch (e) {
       console.warn("파티 목록 조회 실패:", e);
       setToastMessage("파티 목록을 불러오지 못했어요.");
@@ -109,14 +135,14 @@ export default function PartyListScreen(){
     setIsBottomSheetOpen(false);
     setSelectedPartyId(null);
 
-    if (selectedTab === "ALL" && allPartyData.length === 0) {
-      setCursor((prev) => ({ ...prev, ALL: undefined }));
-      setHasMore((prev) => ({ ...prev, ALL: true }));
+    setCursor((prev) => ({ ...prev, [selectedTab]: undefined }));
+    setHasMore((prev) => ({ ...prev, [selectedTab]: true }));
+
+    if (selectedTab === "ALL") {
+      setAllPartyData([]);
       loadParties("ALL", "RESET");
-    }
-    if (selectedTab === "MY" && myPartyData.length === 0) {
-      setCursor((prev) => ({ ...prev, MY: undefined }));
-      setHasMore((prev) => ({ ...prev, MY: true }));
+    } else {
+      setMyPartyData([]);
       loadParties("MY", "RESET");
     }
   }, [selectedTab]);
