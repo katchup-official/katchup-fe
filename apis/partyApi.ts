@@ -99,3 +99,28 @@ export async function getLikedPartyList(
 
   return res.data.data;
 }
+
+/* -------------------- 파티 확정 + 오픈채팅방 링크 추가 -------------------- */
+
+export type ConfirmPartyRequest = {
+  chatUrl: string;
+};
+
+export async function confirmParty(
+  partyId: number,
+  body: ConfirmPartyRequest
+): Promise<ApiResponse<null>> {
+  try {
+    const res = await axiosWithAuthorization.patch<ApiResponse<null>>(
+      `/parties/${partyId}`,
+      body
+    );
+    return res.data;
+  } catch (e: unknown) {
+    if (axios.isAxiosError(e)) {
+      console.warn("[confirmParty] status:", e.response?.status);
+      console.warn("[confirmParty] data:", e.response?.data);
+    }
+    throw e;
+  }
+}

@@ -168,6 +168,16 @@ function PartyBottomSheet({
 
   const canShowReviewButton = party.status === "COMPLETED";
 
+  const refreshParty = async () => {
+    if (!partyId) return;
+    try {
+      const detail = await getPartyDetail(partyId);
+      setParty(detail);
+    } catch (e) {
+      console.warn("파티 상세 재조회 실패:", e);
+    }
+  };
+
   return (
     <Modal visible={isVisible} transparent animationType="fade" onRequestClose={onClose}>
       <View className="flex-1">
@@ -277,6 +287,7 @@ function PartyBottomSheet({
             <PartyBottomSheetButton
               party={party}
               onToggleLike={handleToggleLikeInSheet}
+              onConfirmed={refreshParty}
             />
           </View>
         </Animated.View>

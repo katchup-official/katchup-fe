@@ -5,15 +5,21 @@ import { colors } from "@/constants/colors";
 import { fonts } from "@/constants/fonts";
 import PartyChatLinkModal from "../modals/PartyChatLinkModal";
 import type { PartyItem } from "@/types/party";
+import ShortToast from "@/components/toasts/ShortToast";
+
+import axios from "axios";
+import { confirmParty } from "@/apis/partyApi";
 
 type PartyBottomSheetButtonProps = {
   party: PartyItem;
   onToggleLike?: (id: number) => void;
+  onConfirmed?: () => Promise<void> | void;
 };
 
 export default function PartyBottomSheetButton({
   party,
   onToggleLike,
+  onConfirmed,
 }: PartyBottomSheetButtonProps) {
   const isHost = party.role === "HOST";
 
@@ -25,16 +31,20 @@ export default function PartyBottomSheetButton({
   const [isChatModalVisible, setIsChatModalVisible] = useState(false);
   const [chatUrl, setChatUrl] = useState(party.chatUrl ?? "");
 
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
+
   useEffect(() => {
     setPartyStatus(party.status);
     setIsPartyJoined(false);
+    setChatUrl(party.chatUrl ?? "");
   }, [party]);
 
   const isRecruiting = partyStatus === "RECRUITING";
   const isRecruitCompleted = partyStatus === "RECRUIT_COMPLETED";
   const isCompleted = partyStatus === "COMPLETED";
 
-  const isButtonDisabled = isRecruitCompleted || isCompleted;
+  const isButtonDisabled = isRecruitCompleted || isCompleted || isConfirming;;
 
   const handlePartyJoin = () => {
     if (!isRecruiting || isHost || isButtonDisabled) return;
@@ -47,9 +57,60 @@ export default function PartyBottomSheetButton({
   };
 
   // 오카방 링크 입력 후 파티 status 변경
-  const handleChatConfirm = () => {
-    setPartyStatus("RECRUIT_COMPLETED");
-    setIsChatModalVisible(false);
+  const handleChatConfirm = async () => {
+    if (!party.partyId) return;
+
+    const trimmed = chatUrl.trim();
+
+    if (!trimmed) {
+      setToastMessage("오픈채팅방 링크를 입력해주세요.");
+      setTimeout(() => setToastMessage(null), 1500);
+      return;
+    }
+
+    // 카카오 오픈채팅 URL 검증
+    const isValid = /^https:\/\/open\.kakao\.com\/o\/.+/.test(trimmed);
+    if (!isValid) {
+      setToastMessage("올바른 오픈채팅방 링크를 입력해주세요.");
+      setTimeout(() => setToastMessage(null), 1500);
+      return;
+    }
+
+    try {
+      setIsConfirming(true);
+
+      await confirmParty(party.partyId, { chatUrl: trimmed });
+
+      await onConfirmed?.();
+      setPartyStatus("RECRUIT_COMPLETED");
+      setIsChatModalVisible(false);
+
+      setToastMessage("파티가 확정되었습니다!");
+      setTimeout(() => setToastMessage(null), 1500);
+    } catch (e: unknown) {
+      let msg = "파티 확정에 실패했어요. 다시 시도해주세요.";
+      if (axios.isAxiosError(e)) {
+        const data = e.response?.data as any;
+        const serverMsg =
+          data?.data?.message ||
+          data?.message ||
+          data?.error ||
+          data?.detail ||
+          data?.title;
+
+        if (typeof serverMsg === "string" && serverMsg.trim()) {
+          msg = serverMsg;
+        }
+
+        console.warn("파티 확정 실패:", e.response?.status, e.response?.data);
+      } else {
+        console.warn("파티 확정 실패:", e);
+      }
+
+      throw new Error(msg);
+    } finally {
+      setIsConfirming(false);
+    }
   };
 
   const getButtonBackgroundColor = () => {

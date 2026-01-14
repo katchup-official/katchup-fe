@@ -12,6 +12,7 @@ export default function ShortToast({ message }: ShortToastProps) {
     <View 
         className="absolute left-0 right-0 items-center"
         style={{
+          position: "absolute",
           top: -10,
           zIndex: 9999,
           elevation: 9999,
