@@ -78,7 +78,7 @@ export default function PartyBottomSheet({
   const tags = [
     formatDate(party.startAt),
     formatPartyType(party.type),
-    routeLabel,
+    ...(party.type !== "SCHEDULE_ONLY" ? [routeLabel] : []),
     formatGender(party.gender),
   ];
 
@@ -175,11 +175,13 @@ export default function PartyBottomSheet({
                 ))}
               </View>
 
-              <View className="bg-gray-200 rounded-xl px-4 py-3 mb-6">
-                <Text style={[fonts.smallText, { color: colors.black }]}>
-                  {party.description ?? "파티장님이 아직 소개를 작성하지 않았어요."}
-                </Text>
-              </View>
+              {party.description && (
+                <View className="bg-gray-200 rounded-xl px-4 py-3 mb-6">
+                  <Text style={[fonts.smallText, { color: colors.black }]}>
+                    {party.description}
+                  </Text>
+                </View>
+              )}
             </View>
 
             {canViewChatLink && (

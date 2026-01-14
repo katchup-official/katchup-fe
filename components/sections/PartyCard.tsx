@@ -102,7 +102,7 @@ export default function PartyCard({ item, onToggleLike, onSelect, selectable = f
             <View className="flex-row flex-wrap mt-3">
               <Tag label={formatDate(item.startAt)} isSelected={selected} />
               <Tag label={formatPartyType(item.type)} isSelected={selected} />
-              <Tag label={routeLabel} isSelected={selected} />
+              {item.type !== "SCHEDULE_ONLY" && (<Tag label={routeLabel} isSelected={selected} />)}
               <Tag label={formatGender(item.gender)} isSelected={selected} />
             </View>
           </View>
